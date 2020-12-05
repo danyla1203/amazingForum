@@ -1,4 +1,5 @@
 import * as crypto from "crypto";
+import {BadPassword, NoSuchUser} from "../lib/Error";
 
 export type UserData = {
     user_id: number,
@@ -30,12 +31,12 @@ export class AuthenticationModel {
     public async verifyCredential(name: string, password: string) {
         let user: UserData | undefined = await this.repo.getUserByName(name);
         if (!user) {
-            //user doesn't exist
+            throw new NoSuchUser();
         } else {
             if (user.password !== password) {
-                //password is wrong
+                throw new BadPassword()
             } else {
-                //valid credential
+                return user;
             }
         }
     }

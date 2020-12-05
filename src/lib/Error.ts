@@ -10,3 +10,21 @@ export class CustomError extends Error{
         this.errorData = errData;
     }
 }
+
+export class NoSuchUser extends CustomError {
+    constructor() {
+        super({
+            statusCode:401,
+            statusText: "User with such name doesn't exist"
+        })
+    }
+}
+
+export class BadPassword extends CustomError {
+    constructor() {
+        super({
+            statusCode:401,
+            statusText: "Bad password"
+        })
+    }
+}
