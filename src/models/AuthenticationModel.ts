@@ -1,3 +1,5 @@
+import * as crypto from "crypto";
+
 export type UserData = {
     user_id: number,
     nickname: string,
@@ -18,8 +20,11 @@ export class AuthenticationModel {
         this.repo = repo;
     }
 
-    private async createSessionId(nickname: string, email: string): string {
-        return "";
+    private async createSessionId(nickname: string, email: string): Promise<string> {
+        return crypto
+            .createHash("md5")
+            .update(nickname + email)
+            .digest("hex");
     }
 
     public async verifyCredential(name: string, password: string) {
