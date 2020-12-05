@@ -7,6 +7,7 @@ export interface Request extends http.IncomingMessage {
     method: string
     params: any,
     body: Map<string, any>,
+    cookies: Map<string, any>
 }
 export interface Response extends http.ServerResponse{}
 
@@ -24,6 +25,17 @@ export class ExtendContext {
                 req.params[paramName] = value;
             }
         }
+    }
+
+    private parseCookie(req: Request) {
+        const cookieString = req.headers["cookie"];
+        let parsedCookies = new Map();
+        let splitedCookieString = cookieString.split(";");
+        for (let i = 0; i < splitedCookieString.length; i++) {
+            let [cookieName, value] = splitedCookieString[i].split("=");
+            parsedCookies.set(cookieName, value);
+        }
+        req.cookies = parsedCookies;
     }
 
     public async extend(req: Request, res: Response, handler: handler) {
