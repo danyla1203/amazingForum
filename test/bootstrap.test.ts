@@ -1,9 +1,8 @@
 import {Bootstrap, handler} from "../src/bootstrap";
-import {PostBody} from "../src/lib/PostBody";
 import * as mock from "mock-http";
 import {Request} from "../src/lib/ExtendContext";
 
-const bootstrapTest = new Bootstrap([], new PostBody());
+const bootstrapTest = new Bootstrap([]);
 describe("testing get handler func", () => {
     let handlerFunc = jest.fn();
     let handlers: handler[] = [
