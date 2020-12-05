@@ -1,5 +1,5 @@
 import {AuthenticationModel, UserData} from "../models/AuthenticationModel";
-import {post} from "../lib/httpMethodDecorators";
+import {get, post} from "../lib/httpMethodDecorators";
 import {Request, Response} from "../lib/ExtendContext";
 
 export class AuthenticationController {
@@ -16,5 +16,10 @@ export class AuthenticationController {
         let user: UserData = await this.authModel.verifyCredential(name, password);
         let session_id: string = await this.authModel.createSession(user);
         res.cookie("s_id", session_id);
+    }
+
+    @get("/logout")
+    async logout(req: Request, res: Response) {
+        this.authModel.logout(req.cookies.get("s_id"));
     }
 }
