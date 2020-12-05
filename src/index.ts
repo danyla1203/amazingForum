@@ -4,6 +4,9 @@ import {Pool} from "pg";
 
 import {Bootstrap} from "./bootstrap";
 import * as http from "http";
+import {AuthenticationController} from "./controllers/AuthenticationController";
+import {AuthenticationModel} from "./models/AuthenticationModel";
+import {AuthenticationRepository} from "./repositories/AuthenticationRepository";
 
 const app = http.createServer();
 dotenv.config();
@@ -27,12 +30,15 @@ dbConnection.connect((err) => {
     }
 });
 //creating repositories
+const authRepo = new AuthenticationRepository(redisClient, dbConnection);
 
 //creating models
-
+const authModel = new AuthenticationModel(authRepo);
 
 //put new controllers here
-const controllers = [];
+const controllers = [
+    new AuthenticationController(authModel)
+];
 const bootstrap = new Bootstrap(controllers);
 
 bootstrap.start(app);
