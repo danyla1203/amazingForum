@@ -8,16 +8,16 @@ export type UserData = {
     email: string
 }
 
-export interface RepositoryI {
+export interface AuthRepositoryI {
     getUserByName(nickname: string): Promise<UserData | undefined>
     createSession(session_id: string, userData: UserData): Promise<any>
     getUserBySession(session_id: string): Promise<UserData | undefined>
-    destroySession(session_id: string): Promise<true>
+    destroySession(session_id: string): void
 }
 
 export class AuthenticationModel {
-    repo: RepositoryI;
-    constructor(repo: RepositoryI) {
+    repo: AuthRepositoryI;
+    constructor(repo: AuthRepositoryI) {
         this.repo = repo;
     }
 
@@ -49,7 +49,7 @@ export class AuthenticationModel {
     public async verifySession(session_id: string): Promise<UserData> {
         return this.repo.getUserBySession(session_id);
     }
-    public async logout(session_id: string): Promise<true> {
-        return await this.repo.destroySession(session_id);
+    public logout(session_id: string) {
+        this.repo.destroySession(session_id);
     }
 }
