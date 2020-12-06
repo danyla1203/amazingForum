@@ -48,8 +48,10 @@ export class ExtendContext {
     private setCookies(res: Response) {
         res.cookie = function (name: string, value: any, params?: Params) {
             let cookieString = `${name}=${value}; `;
-            params.httpOnly ? cookieString += "HttpOnly; ": "";
-            params.secure ? cookieString += "Secure; ": "";
+            if (params) {
+                params.httpOnly ? cookieString += "HttpOnly; ": "";
+                params.secure ? cookieString += "Secure; ": "";
+            }
             this.setHeader("Set-Cookie", [cookieString]);
         }
     }
