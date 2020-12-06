@@ -7,8 +7,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strict": false,
-    "noEmitOnError": true,
-    "noEmit": true,
     "typeRoots": [
       "./node_modules/@types",
       "./src/@types"
