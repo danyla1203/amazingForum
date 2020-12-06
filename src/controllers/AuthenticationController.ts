@@ -16,7 +16,7 @@ export class AuthenticationController {
         let user: UserData = await this.authModel.verifyCredential(name, password);
         let session_id: string = await this.authModel.createSession(user);
 
-        res.cookie("s_id", session_id);
+        res.cookie("s_id", session_id, {httpOnly: true, secure: true});
         delete user.password;
         return user;
     }
