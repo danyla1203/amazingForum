@@ -2,15 +2,20 @@ import {PostBody} from "./PostBody";
 import {handler} from "../bootstrap";
 import * as http from "http";
 
+type Params = {
+    httpOnly?: boolean
+    secure?: boolean
+}
+
 export interface Request extends http.IncomingMessage {
-    url: string;
+    url: string
     method: string
     params: any,
     body: Map<string, any>,
     cookies: Map<string, any>
 }
 export interface Response extends http.ServerResponse{
-    cookie: (name: string, value: any) => void;
+    cookie: (name: string, value: any, params?: Params) => void
 }
 
 export class ExtendContext {
@@ -41,8 +46,11 @@ export class ExtendContext {
     }
 
     private setCookies(res: Response) {
-        res.cookie = function (name: string, value: any) {
-            this.setHeader("Set-Cookie", [`${name}=${value}`]);
+        res.cookie = function (name: string, value: any, params?: Params) {
+            let cookieString = `${name}=${value}; `;
+            params.httpOnly ? cookieString += "HttpOnly; ": "";
+            params.secure ? cookieString += "Secure; ": "";
+            this.setHeader("Set-Cookie", [cookieString]);
         }
     }
 
