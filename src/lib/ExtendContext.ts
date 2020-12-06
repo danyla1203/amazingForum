@@ -37,17 +37,19 @@ export class ExtendContext {
     private parseCookie(req: Request) {
         const cookieString = req.headers["cookie"];
         let parsedCookies = new Map();
-        let splitedCookieString = cookieString.split(";");
-        for (let i = 0; i < splitedCookieString.length; i++) {
-            let [cookieName, value] = splitedCookieString[i].split("=");
-            parsedCookies.set(cookieName, value);
+        if (cookieString) {
+            let splitedCookieString = cookieString.split(";");
+            for (let i = 0; i < splitedCookieString.length; i++) {
+                let [cookieName, value] = splitedCookieString[i].split("=");
+                parsedCookies.set(cookieName, value);
+            }
+            req.cookies = parsedCookies;
         }
-        req.cookies = parsedCookies;
     }
 
     private setCookies(res: Response) {
         res.cookie = function (name: string, value: any, params?: Params) {
-            let cookieString = `${name}=${value}; `;
+            let cookieString = `${name}=${value}; Path=/; `;
             if (params) {
                 params.httpOnly ? cookieString += "HttpOnly; ": "";
                 params.secure ? cookieString += "Secure; ": "";
@@ -58,6 +60,7 @@ export class ExtendContext {
 
     public async extend(req: Request, res: Response, handler: handler) {
         await this.setParamsFromUri(req.url, handler.path, req);
+        await this.parseCookie(req);
         await this.setCookies(res);
         await this.PostBody.handle(req);
     }
