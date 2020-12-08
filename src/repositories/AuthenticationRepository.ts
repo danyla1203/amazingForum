@@ -1,6 +1,6 @@
 import {AuthRepositoryI, UserData} from "../models/AuthenticationModel";
 import {Redis} from "ioredis";
-import {Connection, Pool} from "pg";
+import {Pool} from "pg";
 
 export class AuthenticationRepository implements AuthRepositoryI{
     redisConn: Redis;
