@@ -10,7 +10,7 @@ type Params = {
 export interface Request extends http.IncomingMessage {
     url: string
     method: string
-    params: any,
+    params: Map<string, any>,
     body: Map<string, any>,
     cookies: Map<string, any>
 }
@@ -24,12 +24,12 @@ export class ExtendContext {
     private setParamsFromUri(url: string, pattern: string, req: Request) {
         let splitedUrl = url.substring(1).split("/");
         let splitedPattern = pattern.substring(1).split("/");
-        req.params = {};
+        req.params = new Map();
         for (let i = 0; i < splitedPattern.length; i++) {
             if (splitedPattern[i][0] == ":") {
                 let paramName = splitedPattern[i].substring(1);
                 let value = splitedUrl[i].substring(0);
-                req.params[paramName] = value;
+                req.params.set(paramName, value);
             }
         }
     }
