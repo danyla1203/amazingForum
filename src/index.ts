@@ -3,12 +3,12 @@ import * as dotenv from "dotenv";
 import {Pool} from "pg";
 
 import {Bootstrap} from "./bootstrap";
-import {AuthenticationController} from "./controllers/AuthenticationController";
-import {AuthenticationModel} from "./models/AuthenticationModel";
-import {AuthenticationRepository} from "./repositories/AuthenticationRepository";
-import {UserController} from "./controllers/UserController";
-import {UserRepository} from "./repositories/UserRepository";
-import {UserModel} from "./models/UserModel";
+import {AuthenticationController} from "./Authentication/AuthenticationController";
+import {AuthenticationModel} from "./Authentication/AuthenticationModel";
+import {AuthenticationRepository} from "./Authentication/AuthenticationRepository";
+import {UserController} from "./User/UserController";
+import {UserRepository} from "./User/UserRepository";
+import {UserModel} from "./User/UserModel";
 
 dotenv.config();
 

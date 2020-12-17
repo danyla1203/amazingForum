@@ -1,4 +1,5 @@
-import {IncorrectPassword, IncorrectUserData} from "../lib/Error";
+import {IncorrectPassword, IncorrectUserData} from "./errors";
+import {UpdatedUserData, UserData, UserIncomingData} from "./types";
 
 export interface UserRepositoryI {
     deleteUserFromBd(user_id: number)
@@ -6,23 +7,6 @@ export interface UserRepositoryI {
     createUser(user: UserIncomingData)
     updateUser(updates: any, user_id: number)
     updateSessionData(updates: any)
-}
-
-type UserData = {
-    user_id: number
-    nickname: string
-    password: string
-    email: string
-}
-
-export type UserIncomingData = {
-    nickname?: string
-    password?: string
-    email?: string
-    country?: string
-}
-type UpdatedUserData = UserIncomingData & {
-    prevPassword: string
 }
 
 export class UserModel {

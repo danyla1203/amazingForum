@@ -1,3 +1,5 @@
+import {Thread} from "./types";
+
 export interface ThreadRepositoryI {
     getThreads(): Promise<Thread[]>
     getPosts(thread_id: number): Promise<any>
@@ -6,11 +8,6 @@ export interface ThreadRepositoryI {
 export interface ThreadModelI {
     getAllThreads(): Promise<Thread[]>
     getPostsFromThread(thread_id: number): Promise<any>
-}
-
-type Thread = {
-    id: number
-    name: string
 }
 
 export class ThreadModel implements ThreadModelI{

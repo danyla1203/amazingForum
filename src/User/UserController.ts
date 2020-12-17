@@ -1,7 +1,7 @@
-import {AuthenticationModel, AuthModelI} from "../models/AuthenticationModel";
+import {AuthModelI} from "../Authentication/AuthenticationModel";
 import {Request, Response} from "../lib/ExtendContext";
 import {Delete, get, post, put} from "../lib/httpMethodDecorators";
-import {UserModel} from "../models/UserModel";
+import {UserModel} from "./UserModel";
 
 export class UserController {
     authModel: AuthModelI;
@@ -21,14 +21,14 @@ export class UserController {
         return user;
     }
 
-    @get("/user")
+    @get("/User")
     getUser(req: Request, res: Response) {
         let session_id = req.cookies.get("s_id");
         let user = this.authModel.verifySession(session_id);
         return user;
     }
 
-    @put("/user")
+    @put("/User")
     async updateUser(req: Request, res: Response) {
         let session_id = req.cookies.get("s_id");
         let newUser = req.body.get("newUser");
@@ -36,7 +36,7 @@ export class UserController {
         this.userModel.updateUserData(newUser, user);
     }
 
-    @Delete("/user")
+    @Delete("/User")
     async deleteUser(req: Request, res: Response) {
         let session_id = req.cookies.get("s_id");
         let user = await this.authModel.verifySession(session_id);

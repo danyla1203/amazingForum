@@ -1,6 +1,6 @@
-import {ThreadRepositoryI} from "../models/ThreadModel";
+import {ThreadRepositoryI} from "./ThreadModel";
 import {DatabaseError} from "../lib/Error";
-import {Repository} from "./Repository";
+import {Repository} from "../lib/Repository";
 
 export class ThreadRepository extends Repository implements ThreadRepositoryI {
     async getThreads() {

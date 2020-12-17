@@ -1,7 +1,8 @@
 import {Redis} from "ioredis";
 import {Pool} from "pg";
-import {UserIncomingData, UserRepositoryI} from "../models/UserModel";
+import {UserRepositoryI} from "./UserModel";
 import {DatabaseError} from "../lib/Error";
+import {UserIncomingData} from "./types";
 
 export class UserRepository implements UserRepositoryI{
     redisConn: Redis;

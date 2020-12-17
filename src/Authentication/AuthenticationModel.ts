@@ -1,12 +1,6 @@
 import * as crypto from "crypto";
-import {BadPassword, NoSuchUser} from "../lib/Error";
-
-export type UserData = {
-    user_id: number,
-    nickname: string,
-    password: string
-    email: string
-}
+import {BadPassword, NoSuchUser} from "./errors";
+import {UserData} from "./types";
 
 export interface AuthRepositoryI {
     getUserByName(nickname: string): Promise<UserData | undefined>
