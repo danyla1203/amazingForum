@@ -1,4 +1,4 @@
-import {AuthenticationModel, AuthModelI, UserData} from "../models/AuthenticationModel";
+import {AuthModelI, UserData} from "../models/AuthenticationModel";
 import {get, post} from "../lib/httpMethodDecorators";
 import {Request, Response} from "../lib/ExtendContext";
 
