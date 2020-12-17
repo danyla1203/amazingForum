@@ -6,6 +6,9 @@ import {Bootstrap} from "./bootstrap";
 import {AuthenticationController} from "./controllers/AuthenticationController";
 import {AuthenticationModel} from "./models/AuthenticationModel";
 import {AuthenticationRepository} from "./repositories/AuthenticationRepository";
+import {UserController} from "./controllers/UserController";
+import {UserRepository} from "./repositories/UserRepository";
+import {UserModel} from "./models/UserModel";
 
 dotenv.config();
 
@@ -30,14 +33,16 @@ dbConnection.connect((err) => {
 
 //creating repositories
 const authRepo = new AuthenticationRepository(redisClient, dbConnection);
+const userRepo  = new UserRepository(redisClient, dbConnection);
 
 //creating models
 const authModel = new AuthenticationModel(authRepo);
+const userModel = new UserModel(userRepo);
 
 //put new controllers here
 const controllers = [
     new AuthenticationController(authModel),
-
+    new UserController(authModel, userModel),
 ];
 const bootstrap = new Bootstrap(controllers);
 
