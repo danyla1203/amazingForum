@@ -58,8 +58,8 @@ export class ExtendContext {
         }
     }
 
-    public async extend(req: Request, res: Response, handler: handler) {
-        await this.setParamsFromUri(req.url, handler.path, req);
+    public async extend(req: Request, res: Response, pattern: string) {
+        await this.setParamsFromUri(req.url, pattern, req);
         await this.parseCookie(req);
         await this.setCookies(res);
         await this.PostBody.handle(req);
