@@ -1,17 +1,8 @@
 import {ThreadRepositoryI} from "../models/ThreadModel";
-import {Pool} from "pg";
-import {Redis} from "ioredis";
 import {DatabaseError} from "../lib/Error";
+import {Repository} from "./Repository";
 
-export class ThreadRepository implements ThreadRepositoryI {
-    pg: Pool;
-    redisConn: Redis;
-
-    constructor(redisConn: Redis, pgConn) {
-        this.redisConn = redisConn;
-        this.pg = pgConn;
-    }
-
+export class ThreadRepository extends Repository implements ThreadRepositoryI {
     async getThreads() {
         try {
             let result = await this.pg.query("select * from threads");
