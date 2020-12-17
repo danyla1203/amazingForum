@@ -62,9 +62,9 @@ export class Bootstrap {
         }
     }
 
-
-    start(app: http.Server) {
+    start(port) {
         let handlers: handler[] = this.getAllHandlersFromControllers();
+        const app = http.createServer();
         app.on("request", async (req: Request, res: Response) => {
             let handler: handler | undefined = this.getHandler(req.url, req.method, handlers);
             if (!handler) {
@@ -72,8 +72,13 @@ export class Bootstrap {
                 res.end("<h1>Error 404!</h1>");
                 return;
             }
-            await this.ExtendContext.extend(req, res, handler);
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
+            await this.ExtendContext.extend(req, res, handler.path);
             await this.executeHandler(req, res, handler)
         });
+        app.listen(port, () => {
+            console.log(`Listening on ${port} port`);
+        })
     }
 }
