@@ -28,3 +28,28 @@ export class BadPassword extends CustomError {
         })
     }
 }
+export class IncorrectUserData extends CustomError {
+    constructor() {
+        super({
+            statusCode:401,
+            statusText: "Incorrect user data"
+        })
+    }
+}
+
+export class DatabaseError extends CustomError {
+    constructor() {
+        super({
+            statusCode:500,
+            statusText: "Server error"
+        })
+    }
+}
+export class IncorrectPassword extends CustomError {
+    constructor() {
+        super({
+            statusCode: 401,
+            statusText: "Passwords do not match"
+        })
+    }
+}
