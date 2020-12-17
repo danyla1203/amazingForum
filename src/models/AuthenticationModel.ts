@@ -15,7 +15,15 @@ export interface AuthRepositoryI {
     destroySession(session_id: string): void
 }
 
-export class AuthenticationModel {
+export interface AuthModelI {
+    verifyCredential(name: string, password: string): Promise<UserData | undefined>
+    createSession(userData: UserData): Promise<string>
+    verifySession(session_id: string): Promise<UserData>
+    logout(session_id: string): void
+
+}
+
+export class AuthenticationModel implements AuthModelI{
     repo: AuthRepositoryI;
     constructor(repo: AuthRepositoryI) {
         this.repo = repo;

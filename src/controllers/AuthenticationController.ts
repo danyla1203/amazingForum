@@ -1,10 +1,10 @@
-import {AuthenticationModel, UserData} from "../models/AuthenticationModel";
+import {AuthenticationModel, AuthModelI, UserData} from "../models/AuthenticationModel";
 import {get, post} from "../lib/httpMethodDecorators";
 import {Request, Response} from "../lib/ExtendContext";
 
 export class AuthenticationController {
-    authModel: AuthenticationModel;
-    constructor(model: AuthenticationModel) {
+    authModel: AuthModelI;
+    constructor(model: AuthModelI) {
         this.authModel = model;
     }
 
