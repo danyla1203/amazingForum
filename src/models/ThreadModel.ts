@@ -1,6 +1,11 @@
 export interface ThreadRepositoryI {
     getThreads(): Promise<Thread[]>
-    getPosts(thread_id: number): Promise<any>;
+    getPosts(thread_id: number): Promise<any>
+}
+
+export interface ThreadModelI {
+    getAllThreads(): Promise<Thread[]>
+    getPostsFromThread(thread_id: number): Promise<any>
 }
 
 type Thread = {
@@ -8,7 +13,7 @@ type Thread = {
     name: string
 }
 
-export class ThreadModel {
+export class ThreadModel implements ThreadModelI{
     threadRepo: ThreadRepositoryI;
     constructor(threadRepo: ThreadRepositoryI) {
         this.threadRepo = threadRepo;

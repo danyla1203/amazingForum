@@ -1,10 +1,10 @@
-import {ThreadModel} from "../models/ThreadModel";
+import {ThreadModelI} from "../models/ThreadModel";
 import {get} from "../lib/httpMethodDecorators";
 import {Request} from "../lib/ExtendContext";
 
 export class ThreadController {
-    threadModel: ThreadModel;
-    constructor(threadModel) {
+    threadModel: ThreadModelI;
+    constructor(threadModel: ThreadModelI) {
         this.threadModel = threadModel;
     }
 
