@@ -12,6 +12,9 @@ import {UserModel} from "./User/UserModel";
 import {ThreadRepository} from "./Thread/ThreadRepository";
 import {ThreadModel} from "./Thread/ThreadModel";
 import {ThreadController} from "./Thread/ThreadController";
+import {PostRepository} from "./Post/PostRepository";
+import {PostModel} from "./Post/PostModel";
+import {PostController} from "./Post/PostController";
 
 dotenv.config();
 
@@ -38,18 +41,20 @@ dbConnection.connect((err) => {
 const authRepo = new AuthenticationRepository(redisClient, dbConnection);
 const userRepo  = new UserRepository(redisClient, dbConnection);
 const threadRepo  = new ThreadRepository(redisClient, dbConnection);
+const postRepo = new PostRepository(redisClient, dbConnection);
 
 //creating models
 const authModel = new AuthenticationModel(authRepo);
 const userModel = new UserModel(userRepo);
 const threadModel = new ThreadModel(threadRepo);
+const postModel = new PostModel(postRepo);
 
 //put new controllers here
 const controllers = [
     new AuthenticationController(authModel),
     new UserController(authModel, userModel),
-    new ThreadController(threadModel)
-
+    new ThreadController(threadModel),
+    new PostController(postModel)
 ];
 const bootstrap = new Bootstrap(controllers);
 
