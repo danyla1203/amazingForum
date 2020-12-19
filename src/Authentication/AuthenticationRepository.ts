@@ -1,19 +1,10 @@
 import {AuthRepositoryI} from "./AuthenticationModel";
-import {Redis} from "ioredis";
-import {Pool} from "pg";
 import {UserData} from "./types";
+import {Repository} from "../lib/Repository";
 
-export class AuthenticationRepository implements AuthRepositoryI{
-    redisConn: Redis;
-    pgConn: Pool;
-
-    constructor(redisConn: Redis, pgConn) {
-        this.redisConn = redisConn;
-        this.pgConn = pgConn;
-    }
-
+export class AuthenticationRepository extends Repository implements AuthRepositoryI{
     async getUserByName(nickname: string) {
-        let result = await this.pgConn.query<UserData | undefined>(
+        let result = await this.pg.query<UserData>(
             "select * from users where nickname=$1",
             [nickname]
         );
