@@ -3,45 +3,13 @@ import {Pool} from "pg";
 import {UserRepositoryI} from "./UserModel";
 import {DatabaseError} from "../lib/Error";
 import {UserIncomingData} from "./types";
+import {Repository} from "../lib/Repository";
 
-export class UserRepository implements UserRepositoryI{
-    redisConn: Redis;
-    pgConn: Pool;
-
-    constructor(redisConn: Redis, pgConn) {
-        this.redisConn = redisConn;
-        this.pgConn = pgConn;
-    }
-
-    private getFieldValuesString(obj: Object) {
-        let fields = Object.keys(obj).join(", ");
-        let values = "";
-        for (let key in obj) {
-            if (typeof obj[key] == "string") {
-                values += `'${obj[key]}'`;
-            } else {
-                values += obj[key];
-            }
-        }
-        return [fields, values];
-    }
-
-    private getSetPair(obj: Object) {
-        let string = "";
-        for (let key in obj) {
-            if (typeof obj[key] == "string") {
-                string += `${key} = '${obj[key]}', `;
-            } else {
-                string += `${key} = ${obj[key]}, `;
-            }
-        }
-        return string;
-    }
-
+export class UserRepository extends Repository implements UserRepositoryI{
     async deleteUserFromBd(user_id: number) {
         let sql = `delete from users where user_id=${user_id}`;
         try {
-            this.pgConn.query(sql);
+            this.pg.query(sql);
         } catch (e) {
             throw new DatabaseError();
         }
@@ -56,7 +24,7 @@ export class UserRepository implements UserRepositoryI{
     async createUser(user: UserIncomingData) {
         let [field, values] = this.getFieldValuesString(user);
         try {
-            this.pgConn.query(
+            this.pg.query(
                 "insert into users($1) VALUES($2)",
                 [ field, values ]
             )
@@ -64,10 +32,10 @@ export class UserRepository implements UserRepositoryI{
             throw new DatabaseError();
         }
     }
-    async updateUser(updates) {
+    async updateUser(updates: UserIncomingData) {
         let setString = this.getSetPair(updates);
         try {
-            this.pgConn.query(
+            this.pg.query(
                 "update users set $1",
                 [ setString ]
             )
