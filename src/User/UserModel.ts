@@ -2,11 +2,11 @@ import {IncorrectPassword, IncorrectUserData} from "./errors";
 import {UpdatedUserData, UserData, UserIncomingData} from "./types";
 
 export interface UserRepositoryI {
-    deleteUserFromBd(user_id: number)
-    destroySession(session_id: string)
-    createUser(user: UserIncomingData)
-    updateUser(updates: any, user_id: number)
-    updateSessionData(updates: any)
+    deleteUserFromBd(user_id: number): void
+    destroySession(session_id: string): void
+    createUser(user: UserIncomingData): void
+    updateUser(updates: any, user_id: number): void
+    updateSessionData(updates: any): void
 }
 
 export class UserModel {

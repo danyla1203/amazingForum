@@ -62,7 +62,7 @@ export class Bootstrap {
         }
     }
 
-    start(port) {
+    start(port: number) {
         let handlers: handler[] = this.getAllHandlersFromControllers();
         const app = http.createServer();
         app.on("request", async (req: Request, res: Response) => {
