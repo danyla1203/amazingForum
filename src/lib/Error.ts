@@ -12,7 +12,8 @@ export class CustomError extends Error{
 }
 
 export class DatabaseError extends CustomError {
-    constructor() {
+    constructor(e: Error) {
+        console.log(e);
         super({
             statusCode:500,
             statusText: "Server error"
