@@ -7,6 +7,7 @@ import {
 import Header from "./Header";
 import ThreadContainer from "./Thread/ThreadContainer";
 import TopicContainer from "./Topics/TopicContainer";
+import {FullTopic} from "./Topics/FullTopic";
 
 export class UserRouter extends React.Component {
     render() {
@@ -15,12 +16,16 @@ export class UserRouter extends React.Component {
                 <Router>
                     <Header />
                     <Route
-                        path="/"
+                        exact path="/"
                         component={ThreadContainer}
                     />
                     <Route
-                        path="/thread/:thread_id"
+                        exact path="/thread/:thread_id"
                         component={TopicContainer}
+                    />
+                    <Route
+                        exact path="/topic/:topic_id"
+                        component={FullTopic}
                     />
                 </Router>
             </div>
