@@ -4,7 +4,7 @@ export class TopicsStore {
     @observable topics = [];
     @observable selected_topic = null;
 
-    async loadTopicsPreview(thread_id) {
+    loadTopicsPreview(thread_id) {
         fetch(`${process.env.API_HOST}/thread/${thread_id}`)
             .then((response) => {
                 return response.json();
@@ -14,7 +14,7 @@ export class TopicsStore {
             })
     }
 
-    async loadSelectedTopic(topic_id) {
+    loadSelectedTopic(topic_id) {
         fetch(`${process.env.API_HOST}/topic/${topic_id}`)
             .then((response) => {
                 return response.json();
