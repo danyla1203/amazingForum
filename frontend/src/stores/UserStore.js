@@ -1,6 +1,8 @@
+import {observable} from "mobx";
+
 export class UserStore {
     @observable user = null;
-    @obserable errors = null;
+    @observable errors = null;
 
     login(inputedData) {
         fetch(`${process.env.API_HOST}/login`, {method: "POST", body: inputedData})

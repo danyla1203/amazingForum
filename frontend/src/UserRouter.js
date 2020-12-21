@@ -4,15 +4,19 @@ import {
     Route,
 } from "react-router-dom";
 
-import {Header} from "./Header";
+import Header from "./Header";
+import ThreadContainer from "./Thread/ThreadContainer";
 
 export class UserRouter extends React.Component {
     render() {
         return (
             <div>
-                <Header />
                 <Router>
-
+                    <Header />
+                    <Route
+                        path="/"
+                        component={ThreadContainer}
+                    />
                 </Router>
             </div>
         )

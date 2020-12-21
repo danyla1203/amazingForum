@@ -1,6 +1,7 @@
-import Link from "react-router-dom"
+import {Link} from "react-router-dom"
+import React from "react";
 
-export function Header() {
+function Header() {
     return (
         <header>
             <ul>
@@ -12,3 +13,4 @@ export function Header() {
         </header>
     )
 }
+export default Header;
