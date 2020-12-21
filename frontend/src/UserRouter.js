@@ -7,7 +7,8 @@ import {
 import Header from "./Header";
 import ThreadContainer from "./Thread/ThreadContainer";
 import TopicContainer from "./Topics/TopicContainer";
-import {FullTopic} from "./Topics/FullTopic";
+import FullTopic from "./Topics/FullTopic";
+import Login from "./Login/Login";
 
 export class UserRouter extends React.Component {
     render() {
@@ -27,6 +28,10 @@ export class UserRouter extends React.Component {
                         exact path="/topic/:topic_id"
                         component={FullTopic}
                     />
+                    <Route
+                        exact path="/login"
+                        component={Login}
+                     />
                 </Router>
             </div>
         )
