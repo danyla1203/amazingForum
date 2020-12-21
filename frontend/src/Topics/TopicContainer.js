@@ -1,6 +1,6 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
-import {Topic} from "./Topic";
+import {Topic} from "./ShortTopic";
 
 @inject("topicStore")
 @observer
