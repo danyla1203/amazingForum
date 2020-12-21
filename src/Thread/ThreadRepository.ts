@@ -6,9 +6,9 @@ export class ThreadRepository extends Repository implements ThreadRepositoryI {
     async getThreads() {
         try {
             let result = await this.pg.query("select * from threads");
-            return result.rows[0];
+            return result.rows[0] || [];
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e.message);
         }
     }
     async getPosts(thread_id: number) {
@@ -17,9 +17,9 @@ export class ThreadRepository extends Repository implements ThreadRepositoryI {
                 "select * from post where post.thread_id = $1",
                 [thread_id]
             );
-            return result.rows[0];
+            return result.rows[0] || [];
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e.message);
         }
     }
 }
