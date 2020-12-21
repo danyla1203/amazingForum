@@ -5,7 +5,7 @@ export class Repository {
     pg: Pool;
     redisConn: Redis;
 
-    constructor(redisConn: Redis, pgConn) {
+    constructor(redisConn: Redis, pgConn: Pool) {
         this.redisConn = redisConn;
         this.pg = pgConn;
     }

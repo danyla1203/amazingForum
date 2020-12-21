@@ -13,7 +13,7 @@ export class ThreadController {
         return this.threadModel.getAllThreads();
     }
 
-    @get("/Thread/:id")
+    @get("/thread/:id")
     async getPosts(req: Request) {
         let thread_id = req.params.get("id");
         return this.threadModel.getPostsFromThread(thread_id);
