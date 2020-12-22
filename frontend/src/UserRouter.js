@@ -9,6 +9,7 @@ import ThreadContainer from "./Thread/ThreadContainer";
 import TopicContainer from "./Topics/TopicContainer";
 import FullTopic from "./Topics/FullTopic";
 import Login from "./Login/Login";
+import {Registration} from "./Registration/Registration";
 
 export class UserRouter extends React.Component {
     render() {
@@ -31,7 +32,11 @@ export class UserRouter extends React.Component {
                     <Route
                         exact path="/login"
                         component={Login}
-                     />
+                    />
+                    <Route
+                        exact path="/signin"
+                        component={Registration}
+                    />
                 </Router>
             </div>
         )
