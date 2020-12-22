@@ -20,10 +20,13 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
-        historyApiFallback: true
+        historyApiFallback: true,
     },
     plugins: [
-        new HtmlWebpackPlugin({template: './public/index.html'}),
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            publicPath: "/"
+        }),
         new Dotenv()
     ]
 };
