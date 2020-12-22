@@ -1,6 +1,6 @@
 import React from "react";
-import {Thread} from "./Thread";
 import { observer, inject } from "mobx-react";
+import { Thread } from "./Thread";
 
 @inject("threadStore")
 @observer
@@ -15,6 +15,7 @@ export default class ThreadContainer extends React.Component {
         return threads.map((thread) => {
             return (
                 <Thread
+                    key={thread.thread_id}
                     name={thread.name}
                     thread_id={thread.thread_id}
                 />
