@@ -5,10 +5,9 @@ function Header() {
     return (
         <header>
             <ul>
-                <li><Link to="/"/>Home</li>
-                <li><Link to="/"/>Home</li>
-                <li><Link to="/"/>Home</li>
-                <li><Link to="/"/>Home</li>
+                <li><Link to="/home">Home</Link></li>
+                <li><Link to="/login">Login</Link></li>
+                <li><Link to="/">Main Page</Link></li>
             </ul>
         </header>
     )
