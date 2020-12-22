@@ -1,5 +1,6 @@
 import React from "react";
 import {Redirect} from "react-router-dom";
+import { observer, inject } from "mobx-react";
 
 @inject("userStore")
 @observer
