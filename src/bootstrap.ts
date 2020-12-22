@@ -55,7 +55,11 @@ export class Bootstrap {
     async executeHandler(req: Request, res: Response, handler: handler) {
         try {
             let result: any = await handler.handlerFunc(req, res);
-            res.end(JSON.stringify(result));
+            let response = {
+                statusCode: 200,
+                payload: result
+            };
+            res.end(JSON.stringify(response));
         } catch (e) {
             res.statusCode = e.errorData.statusCode;
             res.end(JSON.stringify(e.errorData));
