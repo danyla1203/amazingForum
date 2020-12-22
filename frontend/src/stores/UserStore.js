@@ -20,10 +20,10 @@ export class UserStore {
                 return response.json()
             })
             .then((user) => {
-                if(user.status !== 200) {
-                    this.errors = user;
+                if(user.statusCode !== 200) {
+                    this.errors = user.statusText;
                 } else {
-                    this.user = user;
+                    this.user = user.payload;
                 }
             })
     }

@@ -9,7 +9,7 @@ export class CurrentTopicStore {
                 return response.json();
             })
             .then((topic) => {
-                this.selected_topic = topic;
+                this.selected_topic = topic.payload;
             })
     }
 }

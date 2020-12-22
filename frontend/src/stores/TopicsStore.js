@@ -9,7 +9,7 @@ export class TopicsStore {
                 return response.json();
             })
             .then((topics) => {
-                this.topics = topics;
+                this.topics = topics.payload;
             })
     }
 }

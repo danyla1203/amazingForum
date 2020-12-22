@@ -9,7 +9,7 @@ export class ThreadStore {
                 return response.json();
             })
             .then((threads) => {
-                this.threads = threads
+                this.threads = threads.payload
             })
     }
 }

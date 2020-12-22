@@ -8,4 +8,4 @@ export default {
     topicStore: new TopicsStore(),
     userStore: new UserStore(),
     currentTopicStore: new CurrentTopicStore()
-};
+}
