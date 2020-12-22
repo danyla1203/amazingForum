@@ -14,7 +14,13 @@ export default class TopicContainer extends React.Component {
 
     renderTopics(topics) {
         return topics.map((topic) => {
-            return <ShortTopic/>
+            return (
+                <ShortTopic
+                    key={topic.topic_id}
+                    topic_id={topic.topic_id}
+                    title={topic.title}
+                />
+            )
         });
     }
 
