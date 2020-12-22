@@ -1,6 +1,6 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
-import {Topic} from "./ShortTopic";
+import {ShortTopic} from "./ShortTopic";
 
 @inject("topicStore")
 @observer
@@ -8,13 +8,18 @@ export default class TopicContainer extends React.Component {
     componentDidMount() {
         let { thread_id } = this.props.match.params;
         if (this.props.topicStore.topics.length < 1) {
-            this.prop.topicStore.loadTopicsPreview(thread_id);
+            this.props.topicStore.loadTopicsPreview(thread_id);
         }
     }
-    render() {
-        let topics = this.props.topicStore.topics.map((topic) => {
-            return <TopicShort/>
+
+    renderTopics(topics) {
+        return topics.map((topic) => {
+            return <ShortTopic/>
         });
+    }
+
+    render() {
+        let topics = this.renderTopics(this.props.topicStore.topics);
         return (
             <div>
                 { topics }
