@@ -10,6 +10,9 @@ import TopicContainer from "./Topics/TopicContainer";
 import FullTopic from "./Topics/FullTopic";
 import Login from "./Login/Login";
 import {Registration} from "./Registration/Registration";
+import {CreateTopic} from "./Topics/CreateTopic";
+import Home from "./User/Home";
+import UserPage from "./User/UserPage";
 
 export class UserRouter extends React.Component {
     render() {
@@ -37,6 +40,17 @@ export class UserRouter extends React.Component {
                         exact path="/signin"
                         component={Registration}
                     />
+                    <Route
+                        exact path="/new-topic"
+                        component={CreateTopic}
+                    />
+                    <Route
+                        exact path="/home"
+                        component={Home}
+                    />
+                    <Route
+                        exact path="/user/:user_id"
+                        component={UserPage}
                 </Router>
             </div>
         )
