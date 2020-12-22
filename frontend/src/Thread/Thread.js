@@ -3,7 +3,9 @@ import React from "react"
 export function Thread(props) {
     return (
         <div>
-            <h3>{ props.name }</h3>
+            <Link to={"/thread/" + props.thread_id}>
+                <h3>{ props.name }</h3>
+            </Link>
         </div>
     )
 }
