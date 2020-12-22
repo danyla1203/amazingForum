@@ -10,10 +10,20 @@ export default class ThreadContainer extends React.Component {
             this.props.threadStore.loadThreads();
         }
     }
+
+    renderThreads(threads) {
+        return threads.map((thread) => {
+            return (
+                <Thread
+                    name={thread.name}
+                    thread_id={thread.thread_id}
+                />
+            )
+        })
+    }
+
     render() {
-        let threads = this.props.threadStore.threads.map((thread) => {
-            return <Thread name={thread.name} />
-        });
+        let threads = this.renderThreads(this.props.threadStore.threads);
         return (
             <div>
                 { threads }
