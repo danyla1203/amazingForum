@@ -18,6 +18,7 @@ export default class ThreadContainer extends React.Component {
                     key={thread.thread_id}
                     name={thread.name}
                     thread_id={thread.thread_id}
+                    topics_count={thread.count}
                 />
             )
         })

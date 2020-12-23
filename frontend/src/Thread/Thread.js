@@ -7,6 +7,7 @@ export function Thread(props) {
             <Link to={"/thread/" + props.thread_id}>
                 <h3>{ props.name }</h3>
             </Link>
+            <h4>Topic count: {props.topics_count}</h4>
         </div>
     )
 }
