@@ -9,10 +9,10 @@ export class PostRepository extends Repository implements PostRepoI{
                 " join topic" +
                 " on topic.id = comments.topic_id" +
                 " where post_id = $1";
-            let comments = await this.pg.query(sql, [post_id])
-            return comments.rows[0];
+            let comments = await this.pg.query(sql, [post_id]);
+            return comments.rows;
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e);
         }
     }
     async getPostData(post_id: number) {
@@ -21,9 +21,9 @@ export class PostRepository extends Repository implements PostRepoI{
                 "select * from topics where topic_id = $1",
                 [post_id]
             );
-            return post.rows[0];
+            return post.rows;
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e);
         }
     }
 }
