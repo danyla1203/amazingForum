@@ -10,7 +10,25 @@ export class UserStore {
                 return response.json()
             })
             .then((user) => {
-                this.user = user;
+                if (user.statusCode !== 200) {
+                    this.user = user.payload
+                } else {
+                    this.errors = user.statusText;
+                }
+            })
+    }
+
+    changeUserData(userData) {
+        fetch(`${process.env.API_HOST}/user`, {method: "PUT", body: userData})
+            .then((response) => {
+                return response.json()
+            })
+            .then((user) => {
+                if (user.statusCode !== 200) {
+                    this.user = user.payload
+                } else {
+                    this.errors = user.statusText;
+                }
             })
     }
 

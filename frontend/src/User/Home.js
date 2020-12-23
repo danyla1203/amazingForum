@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
 import { observer, inject } from "mobx-react";
 
 @inject("userStore")
@@ -13,6 +13,7 @@ export default class Home extends React.Component{
                     <h3>{ user.name }</h3>
                     <h4>{ user.email }</h4>
                     <h4>{ user.country }</h4>
+                    <Link to="/change-profile">Change profile data</Link>
                 </div>
             )
         } else {
