@@ -11,25 +11,26 @@ export class UserRepository extends Repository implements UserRepositoryI{
         try {
             this.pg.query(sql);
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e);
         }
     }
     async destroySession(session_id: string) {
         try {
             this.redisConn.del(session_id);
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e);
         }
     }
     async createUser(user: UserIncomingData) {
         let [field, values] = this.getFieldValuesString(user);
         try {
-            this.pg.query(
-                "insert into users($1) VALUES($2)",
+            let result = await this.pg.query(
+                "insert into users($1) VALUES($2) returning id",
                 [ field, values ]
-            )
+            );
+            return Object.assign({}, result.rows, user);
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e);
         }
     }
     async updateUser(updates: UserIncomingData) {
@@ -40,7 +41,7 @@ export class UserRepository extends Repository implements UserRepositoryI{
                 [ setString ]
             )
         } catch (e) {
-            throw new DatabaseError();
+            throw new DatabaseError(e);
         }
     }
     async updateSessionData(updates: any) {

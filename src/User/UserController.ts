@@ -2,6 +2,7 @@ import {AuthModelI} from "../Authentication/AuthenticationModel";
 import {Request, Response} from "../lib/ExtendContext";
 import {Delete, get, post, put} from "../lib/httpMethodDecorators";
 import {UserModel} from "./UserModel";
+import {UserData, UserIncomingData} from "./types";
 
 export class UserController {
     authModel: AuthModelI;
@@ -13,12 +14,18 @@ export class UserController {
 
     @post("/register")
     async register(req: Request, res: Response) {
-        let user = req.body.get("user");
-        await this.userModel.insertUser(user);
-        let session_id = await this.authModel.createSession(user);
+        let userData: UserIncomingData = {
+            nickname: req.body.get("name"),
+            password: req.body.get("password"),
+            email: req.body.get("email"),
+            country: req.body.get("coutry"),
+        };
+
+        let insertedUserData = await this.userModel.insertUser(userData);
+        let session_id = await this.authModel.createSession(insertedUserData);
 
         res.cookie("s_id", session_id);
-        return user;
+        return userData;
     }
 
     @get("/User")

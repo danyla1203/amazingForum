@@ -4,7 +4,7 @@ import {UpdatedUserData, UserData, UserIncomingData} from "./types";
 export interface UserRepositoryI {
     deleteUserFromBd(user_id: number): void
     destroySession(session_id: string): void
-    createUser(user: UserIncomingData): void
+    createUser(user: UserIncomingData): Promise<UserData>
     updateUser(updates: any, user_id: number): void
     updateSessionData(updates: any): void
 }
@@ -25,7 +25,7 @@ export class UserModel {
     public async insertUser(user: UserIncomingData) {
         let isDataCorrect = this.verifyIncomingData(user);
         if (isDataCorrect) {
-            this.userRepo.createUser(user);
+            return this.userRepo.createUser(user);
         } else {
             throw new IncorrectUserData();
         }
