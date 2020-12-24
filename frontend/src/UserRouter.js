@@ -13,6 +13,7 @@ import {Registration} from "./Registration/Registration";
 import {CreateTopic} from "./Topics/CreateTopic";
 import Home from "./User/Home";
 import UserPage from "./User/UserPage";
+import UpdateUserData from "./User/UpdateUserData";
 
 export class UserRouter extends React.Component {
     render() {
@@ -37,7 +38,7 @@ export class UserRouter extends React.Component {
                         component={Login}
                     />
                     <Route
-                        exact path="/signin"
+                        exact path="/signup"
                         component={Registration}
                     />
                     <Route
@@ -51,6 +52,10 @@ export class UserRouter extends React.Component {
                     <Route
                         exact path="/user/:user_id"
                         component={UserPage}
+                    />
+                    <Route
+                        exact path="/change-profile"
+                        component={UpdateUserData}
                     />
                 </Router>
             </div>
