@@ -5,19 +5,24 @@ import { observer, inject } from "mobx-react";
 @inject("userStore")
 @observer
 export class Registration extends React.Component {
-    signIn() {
-        let form = document.getElementById("signin_form");
+    constructor(props) {
+        super(props);
+        this.signUp = this.signUp.bind(this);
+    }
+
+    signUp() {
+        let form = document.getElementById("signup_form");
         let formData = new FormData(form);
-        this.props.userStore.createUser(formData)
+        this.props.userStore.createUser(formData);
     }
 
     render() {
         if (!this.props.userStore.user) {
             return (
-                <form id="signin_form">
+                <form id="signup_form">
                     <input type="text" name="name"/>
                     <input type="password" name="password"/>
-                    <button type="button" onClick={this.signIn}>Sign in</button>
+                    <button type="button" onClick={this.signUp}>Sign up</button>
                 </form>
             )
         } else {
