@@ -8,6 +8,10 @@ export default class UpdateUserData extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            isChanged: false
+        };
         this.changeData = this.changeData.bind(this);
     }
 
@@ -15,9 +19,13 @@ export default class UpdateUserData extends React.Component {
         let form = document.getElementById("update_user_form");
         let formData = new FormData(form);
         this.props.userStore.changeUserData(formData);
+        this.setState({isChanged: true});
     }
 
     render() {
+        if (this.state.isChanged) {
+            return <Redirect to="/home"/>
+        }
         if (this.props.userStore.user) {
             let errMessage = this.props.userStore.errors;
             return (
