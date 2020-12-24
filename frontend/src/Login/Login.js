@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
 import { observer, inject } from "mobx-react";
 
 @inject("userStore")
@@ -20,12 +20,15 @@ export default class Login extends React.Component {
         if (!this.props.userStore.user) {
             let errMessage = <h3>{this.props.userStore.errors}</h3>;
             return (
-                <form id="login_form">
-                    {errMessage}
-                    <input type="text" name="name"/>
-                    <input type="password" name="password"/>
-                    <button type="button" onClick={this.login}>Sign in</button>
-                </form>
+                <div>
+                    <form id="login_form">
+                        {errMessage}
+                        <input type="text" name="name"/>
+                        <input type="password" name="password"/>
+                        <button type="button" onClick={this.login}>Sign in</button>
+                    </form>
+                    <Link to="/signup">Sign up</Link>
+                </div>
             )
 
         } else {
