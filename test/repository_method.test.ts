@@ -1,7 +1,8 @@
 import {Repository} from "../src/lib/Repository";
-import {dbConnection, redisClient} from "../src";
+import {Pool} from "pg";
+import * as redis from "redis-mock"
 
-const repo = new Repository(redisClient, dbConnection);
+const repo = new Repository(redis.createClient(), new Pool());
 describe("test get values and column string", () => {
     test("only strings", () => {
         let obj = { name: "Name", age: 12, password: "1234", id: "1234123" };
