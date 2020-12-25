@@ -16,10 +16,26 @@ export class UserModel {
     }
 
     private verifyIncomingData(user: UserIncomingData): boolean {
-        return true;
+        let necessaryColumns = ["nickname", "password", "email"];
+        for (let i = 0; i < necessaryColumns.length; i++) {
+            if (necessaryColumns[i] in user) {
+                if (user[necessaryColumns[i]].length < 2) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true
     }
-    private findUpdates(newUser: UpdatedUserData, prevUser: UserData) {
-        return {};
+    private findUpdates(newUser: Object, prevUser: Object) {
+        let updatedColumns = {};
+        for(let column in prevUser) {
+            if (newUser[column] != prevUser[column]) {
+                updatedColumns[column] = newUser[column];
+            }
+        }
+        return updatedColumns;
     }
 
     public async insertUser(user: UserIncomingData) {
