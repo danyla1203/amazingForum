@@ -1,6 +1,7 @@
 import {Bootstrap, handler} from "../src/bootstrap";
-import * as mock from "mock-http";
 import {Request} from "../src/lib/ExtendContext";
+import {RequestMock} from "./RequestMock";
+
 
 const bootstrapTest = new Bootstrap([]);
 describe("testing get handler func", () => {
@@ -44,7 +45,7 @@ describe("testing get handler func", () => {
 });
 
 describe("testing set params func", () => {
-    let request: Request = new mock.Request();
+    let request: Request = new RequestMock();
     test("test without pattern", () => {
         request.url = "/";
         request.method = "GET";
