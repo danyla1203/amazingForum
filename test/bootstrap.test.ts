@@ -2,7 +2,6 @@ import {Bootstrap, handler} from "../src/bootstrap";
 import {Request} from "../src/lib/ExtendContext";
 import {RequestMock} from "./RequestMock";
 
-
 const bootstrapTest = new Bootstrap([]);
 describe("testing get handler func", () => {
     let handlerFunc = jest.fn();
@@ -50,21 +49,21 @@ describe("testing set params func", () => {
         request.url = "/";
         request.method = "GET";
         bootstrapTest.ExtendContext["setParamsFromUri"](request.url, "/", request);
-        expect(request.params).toStrictEqual({});
+        expect(request.params).toStrictEqual(new Map());
 
         request.method = "POST";
         bootstrapTest.ExtendContext["setParamsFromUri"](request.url, "/", request);
-        expect(request.params).toStrictEqual({});
+        expect(request.params).toStrictEqual(new Map());
     });
     test("test with pattern", () => {
         request.url = "/articles/12";
         request.method = "GET";
         bootstrapTest.ExtendContext["setParamsFromUri"](request.url, "/articles/:article_id", request);
-        expect(request.params).toStrictEqual({"article_id": "12"});
+        expect(request.params).toStrictEqual(new Map([["article_id", "12"]]));
 
         request.url = "/test/1/2";
         bootstrapTest.ExtendContext["setParamsFromUri"](request.url, "/test/:var1/:var2", request);
-        expect(request.params).toStrictEqual({"var1": "1", "var2": "2"});
+        expect(request.params).toStrictEqual(new Map([["var1", "1"], ["var2", "2"]]));
     })
 
 });
