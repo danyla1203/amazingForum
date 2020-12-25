@@ -2,7 +2,7 @@ import {AuthModelI} from "../Authentication/AuthenticationModel";
 import {Request, Response} from "../lib/ExtendContext";
 import {Delete, get, post, put} from "../lib/httpMethodDecorators";
 import {UserModel} from "./UserModel";
-import {UserData, UserIncomingData} from "./types";
+import {UserIncomingData} from "./types";
 
 export class UserController {
     authModel: AuthModelI;
@@ -18,24 +18,23 @@ export class UserController {
             nickname: req.body.get("name"),
             password: req.body.get("password"),
             email: req.body.get("email"),
-            country: req.body.get("coutry"),
+            country: req.body.get("country"),
         };
-
-        let insertedUserData = await this.userModel.insertUser(userData);
-        let session_id = await this.authModel.createSession(insertedUserData);
+        let userWithId = await this.userModel.insertUser(userData);
+        let session_id = await this.authModel.createSession(userWithId);
 
         res.cookie("s_id", session_id);
-        return userData;
+        return userWithId;
     }
 
-    @get("/User")
+    @get("/user")
     getUser(req: Request, res: Response) {
         let session_id = req.cookies.get("s_id");
         let user = this.authModel.verifySession(session_id);
         return user;
     }
 
-    @put("/User")
+    @put("/user")
     async updateUser(req: Request, res: Response) {
         let session_id = req.cookies.get("s_id");
         let newUser = req.body.get("newUser");
@@ -43,7 +42,7 @@ export class UserController {
         this.userModel.updateUserData(newUser, user);
     }
 
-    @Delete("/User")
+    @Delete("/user")
     async deleteUser(req: Request, res: Response) {
         let session_id = req.cookies.get("s_id");
         let user = await this.authModel.verifySession(session_id);

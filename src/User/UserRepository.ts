@@ -1,8 +1,6 @@
-import {Redis} from "ioredis";
-import {Pool} from "pg";
 import {UserRepositoryI} from "./UserModel";
 import {DatabaseError} from "../lib/Error";
-import {UserIncomingData} from "./types";
+import {UserData, UserIncomingData} from "./types";
 import {Repository} from "../lib/Repository";
 
 export class UserRepository extends Repository implements UserRepositoryI{
@@ -21,14 +19,15 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
-    async createUser(user: UserIncomingData) {
+    async createUser(user: UserData) {
         let [field, values] = this.getFieldValuesString(user);
         try {
-            let result = await this.pg.query(
+            let result = await this.pg.query<{id: number}>(
                 "insert into users($1) VALUES($2) returning id",
                 [ field, values ]
             );
-            return Object.assign({}, result.rows, user);
+            return Object.assign(user, result.rows[0]);
+
         } catch (e) {
             throw new DatabaseError(e);
         }
