@@ -1,6 +1,7 @@
 import {PostRepoI} from "./PostModel";
 import {Repository} from "../lib/Repository";
 import {DatabaseError} from "../lib/Error";
+import {Post} from "./types";
 
 export class PostRepository extends Repository implements PostRepoI{
     async getCommentsForPost(post_id: number) {
@@ -17,11 +18,11 @@ export class PostRepository extends Repository implements PostRepoI{
     }
     async getPostData(post_id: number) {
         try {
-            let post = await this.pg.query(
+            let post = await this.pg.query<Post>(
                 "select * from topics where topic_id = $1",
                 [post_id]
             );
-            return post.rows;
+            return post.rows[0];
         } catch (e) {
             throw new DatabaseError(e);
         }
