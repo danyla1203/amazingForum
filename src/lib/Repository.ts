@@ -10,27 +10,47 @@ export class Repository {
         this.pg = pgConn;
     }
 
-    protected getFieldValuesString(obj: Object) {
+    public getFieldValuesString(obj: Object) {
         let fields = Object.keys(obj).join(", ");
         let values = "";
-        for (let key in obj) {
-            if (typeof obj[key] == "string") {
-                values += `'${obj[key]}'`;
+        let arrayedObject = Object.entries(obj);
+
+        for (let i = 0; i < arrayedObject.length; i++) {
+            if (i == arrayedObject.length - 1) {
+                if (typeof arrayedObject[i][1] == "string") {
+                    values += `'${arrayedObject[i][1]}'`;
+                } else {
+                    values += `${arrayedObject[i][1]}`;
+                }
             } else {
-                values += obj[key];
+                if (typeof arrayedObject[i][1] == "string") {
+                    values += `'${arrayedObject[i][1]}', `;
+                } else {
+                    values += `${arrayedObject[i][1]}, `;
+                }
             }
         }
         return [fields, values];
     }
 
     //return string like "key1=val1, key2=val2, keyN=valN"
-    protected getSetPair(obj: Object) {
+    public getSetPair(obj: Object) {
+        let arrayedObj = Object.entries(obj);
         let string = "";
-        for (let key in obj) {
-            if (typeof obj[key] == "string") {
-                string += `${key} = '${obj[key]}', `;
+
+        for (let i = 0; i < arrayedObj.length; i++) {
+            if (i == arrayedObj.length - 1) {
+                if (typeof arrayedObj[i][1] == "string") {
+                    string += `${arrayedObj[i][0]} = '${arrayedObj[i][1]}'`;
+                } else {
+                    string += `${arrayedObj[i][0]} = ${arrayedObj[i][1]}`;
+                }
             } else {
-                string += `${key} = ${obj[key]}, `;
+                if (typeof arrayedObj[i][1] == "string") {
+                    string += `${arrayedObj[i][0]} = '${arrayedObj[i][1]}', `;
+                } else {
+                    string += `${arrayedObj[i][0]} = ${arrayedObj[i][1]}, `;
+                }
             }
         }
         return string;
