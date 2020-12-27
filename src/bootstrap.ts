@@ -61,6 +61,7 @@ export class Bootstrap {
             };
             res.end(JSON.stringify(response));
         } catch (e) {
+            console.log(e);
             res.statusCode = e.errorData.statusCode;
             res.end(JSON.stringify(e.errorData));
         }
@@ -76,8 +77,9 @@ export class Bootstrap {
                 res.end("<h1>Error 404!</h1>");
                 return;
             }
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
             await this.ExtendContext.extend(req, res, handler.path);
             await this.executeHandler(req, res, handler)
         });
