@@ -2,6 +2,7 @@ import React from "react";
 import {Redirect} from "react-router-dom";
 import { observer, inject } from "mobx-react";
 import "./Registration.sass"
+import countries from "./countryList"
 
 @inject("userStore")
 @observer
@@ -26,6 +27,9 @@ export class Registration extends React.Component {
                     <form id="signup_form">
                         <input type="text" name="name"/>
                         <input type="password" name="password"/>
+                        <input type="text" name="email"/>
+                        { countries }
+                        <input type="file" name="user_avatar"/>
                         <button type="button" onClick={this.signUp}>Sign up</button>
                     </form>
                 </div>
