@@ -1,6 +1,7 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
 import {ShortTopic} from "./ShortTopic";
+import "./Topics.sass"
 
 @inject("topicStore")
 @observer
@@ -27,7 +28,7 @@ export default class TopicContainer extends React.Component {
     render() {
         let topics = this.renderTopics(this.props.topicStore.topics);
         return (
-            <div>
+            <div id="topic_container">
                 { topics }
             </div>
         )
