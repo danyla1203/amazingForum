@@ -11,9 +11,9 @@ export class UserStore {
             })
             .then((user) => {
                 if (user.statusCode !== 200) {
-                    this.user = user.payload
-                } else {
                     this.errors = user.statusText;
+                } else {
+                    this.user = user.payload;
                 }
             })
     }
