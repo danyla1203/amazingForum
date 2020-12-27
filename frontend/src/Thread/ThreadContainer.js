@@ -1,6 +1,7 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
 import { Thread } from "./Thread";
+import "./Thread.sass"
 
 @inject("threadStore")
 @observer
@@ -27,7 +28,7 @@ export default class ThreadContainer extends React.Component {
     render() {
         let threads = this.renderThreads(this.props.threadStore.threads);
         return (
-            <div>
+            <div id="thread_container">
                 { threads }
             </div>
         )
