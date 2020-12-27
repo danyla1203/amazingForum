@@ -10,6 +10,7 @@ export type UserIncomingData = {
     password?: string
     email?: string
     country?: string
+    avatar_path?: string
 }
 
 export type UpdatedUserData = UserIncomingData & {

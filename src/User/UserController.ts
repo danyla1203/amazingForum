@@ -19,6 +19,7 @@ export class UserController {
             password: req.body.get("password"),
             email: req.body.get("email"),
             country: req.body.get("country"),
+            avatar_path: req.body.get("user_avatar").fileName
         };
         let userWithId = await this.userModel.insertUser(userData);
         let session_id = await this.authModel.createSession(userWithId);
