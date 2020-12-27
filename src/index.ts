@@ -58,4 +58,4 @@ const controllers = [
 ];
 const bootstrap = new Bootstrap(controllers);
 
-bootstrap.start(process.env.PORT || 3000);
+bootstrap.start(parseInt(process.env.PORT) || 3000);
