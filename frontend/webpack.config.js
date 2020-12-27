@@ -16,7 +16,15 @@ module.exports = {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
             },
-        ]
+            {
+                test: /\.sass$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "sass-loader",
+                ]
+            }
+        ],
     },
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
