@@ -17,8 +17,8 @@ export default class Home extends React.Component{
                         <h4>{ user.email }</h4>
                         <h4>{ user.country }</h4>
                         <div>
-                            <Link to="/change-profile">Change profile data</Link>
-                            <Link to="/logout">Logout</Link>
+                            <button><Link to="/change-profile">Change profile data</Link></button>
+                            <button><Link to="/logout">Logout</Link></button>
                         </div>
                     </div>
                 </div>
