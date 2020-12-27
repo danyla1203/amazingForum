@@ -28,14 +28,14 @@ export class UserController {
     }
 
     @get("/user")
-    getUser(req: Request, res: Response) {
+    getUser(req: Request) {
         let session_id = req.cookies.get("s_id");
         let user = this.authModel.verifySession(session_id);
         return user;
     }
 
     @put("/user")
-    async updateUser(req: Request, res: Response) {
+    async updateUser(req: Request) {
         let session_id = req.cookies.get("s_id");
         let newUser = req.body.get("newUser");
         let user = await this.authModel.verifySession(session_id);
@@ -43,7 +43,7 @@ export class UserController {
     }
 
     @Delete("/user")
-    async deleteUser(req: Request, res: Response) {
+    async deleteUser(req: Request) {
         let session_id = req.cookies.get("s_id");
         let user = await this.authModel.verifySession(session_id);
         this.userModel.deleteUser(session_id, user.user_id);

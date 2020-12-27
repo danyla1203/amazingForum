@@ -23,7 +23,7 @@ export class AuthenticationController {
     }
 
     @get("/logout")
-    async logout(req: Request, res: Response) {
+    async logout(req: Request) {
         this.authModel.logout(req.cookies.get("s_id"));
     }
 }
