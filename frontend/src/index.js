@@ -4,7 +4,7 @@ import {Provider} from "mobx-react";
 
 import stores from "./stores/index";
 import { UserRouter } from "./UserRouter";
-
+import "./global.sass"
 function App() {
     return (
         <Provider {...stores}>
