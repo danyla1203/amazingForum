@@ -1,6 +1,7 @@
 import React from "react";
 import {Redirect} from "react-router-dom";
 import { observer, inject } from "mobx-react";
+import "./Registration.sass"
 
 @inject("userStore")
 @observer
@@ -18,12 +19,17 @@ export class Registration extends React.Component {
 
     render() {
         if (!this.props.userStore.user) {
+            let errMessage = <h3 id="err_message">{this.props.userStore.errors}</h3>;
             return (
-                <form id="signup_form">
-                    <input type="text" name="name"/>
-                    <input type="password" name="password"/>
-                    <button type="button" onClick={this.signUp}>Sign up</button>
-                </form>
+                <div id="signup_container">
+                    {errMessage}
+                    <form id="signup_form">
+                        <input type="text" name="name"/>
+                        <input type="password" name="password"/>
+                        <button type="button" onClick={this.signUp}>Sign up</button>
+                    </form>
+                </div>
+
             )
         } else {
             return <Redirect to="/" />
