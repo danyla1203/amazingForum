@@ -14,6 +14,7 @@ import {CreateTopic} from "./Topics/CreateTopic";
 import Home from "./User/Home";
 import UserPage from "./User/UserPage";
 import UpdateUserData from "./User/UpdateUserData";
+import Logout from "./Logout/Logout";
 
 export class UserRouter extends React.Component {
     render() {
@@ -56,6 +57,10 @@ export class UserRouter extends React.Component {
                     <Route
                         exact path="/change-profile"
                         component={UpdateUserData}
+                    />
+                    <Route
+                        exact path="/logout"
+                        component={Logout}
                     />
                 </Router>
             </div>
