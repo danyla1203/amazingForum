@@ -4,7 +4,6 @@ import * as path from "path";
 import * as fs from "fs";
 
 export class PostBody {
-
     private async handleMultipart(req: Request) {
         let busboy = new Busboy({ headers: req.headers });
         let body = new Map();
