@@ -7,7 +7,7 @@ import {
 import Header from "./Header";
 import ThreadContainer from "./Thread/ThreadContainer";
 import TopicContainer from "./Topics/TopicContainer";
-import FullTopic from "./Topics/FullTopic";
+import FullTopic from "./CurrentTopic/FullTopic";
 import Login from "./Login/Login";
 import {Registration} from "./Registration/Registration";
 import {CreateTopic} from "./Topics/CreateTopic";
