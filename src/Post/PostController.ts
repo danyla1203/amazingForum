@@ -36,4 +36,16 @@ export class PostController {
         };
         this.postModel.createComment(comment);
     }
+
+    @post("/topic/create")
+    public async createTopic(req: Request) {
+        let { user_id } = await this.authModel.verifySession(req.body.get("s_id"));
+        let topic = {
+            author_id: user_id,
+            thread_id: req.body.get("thread_id"),
+            title: req.body.get("title"),
+            text: req.body.get("text"),
+        };
+        return this.postModel.createTopic(topic);
+    }
 }

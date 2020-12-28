@@ -1,16 +1,18 @@
-import {Comment, IncomingComment, Post} from "./types";
-import {BadCommentData} from "./errors";
+import {Comment, IncomingComment, IncomingTopic, Post, Topic} from "./types";
+import {BadCommentData, BadTopicData} from "./errors";
 
 export interface PostModelI {
     getPost(post_id: number): Promise<Post>
     getComments(post_id: number): Promise<Comment[]>
     createComment(comment: IncomingComment): void
+    createTopic(topic: IncomingTopic): Promise<Topic>
 }
 
 export interface PostRepoI {
     getPostData(post_id: number): Promise<Post>
     getCommentsForPost(post_id: number): Promise<Comment[]>
     insertComment(comment: IncomingComment): void
+    createTopic(topic: IncomingTopic): Promise<Topic>
 }
 
 export class PostModel implements PostModelI {
@@ -24,6 +26,19 @@ export class PostModel implements PostModelI {
         for (let i = 0; i < necessaryColumns.length; i++) {
             if (necessaryColumns[i] in comment) {
                 if (comment[necessaryColumns[i]].length < 2) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return true
+    }
+    private verifyTopicData(topic: IncomingTopic): boolean {
+        let necessaryColumns = ["author_id", "thread_id", "title",  "text"];
+        for (let i = 0; i < necessaryColumns.length; i++) {
+            if (necessaryColumns[i] in topic) {
+                if (topic[necessaryColumns[i]].length < 2) {
                     return false;
                 }
             } else {
@@ -46,6 +61,15 @@ export class PostModel implements PostModelI {
             this.repo.insertComment(comment)
         } else {
             throw new BadCommentData();
+        }
+    }
+
+    createTopic(newTopic: IncomingTopic) {
+        let isTopicValid = this.verifyTopicData(newTopic);
+        if (isTopicValid) {
+            return this.repo.createTopic(newTopic);
+        } else {
+            throw new BadTopicData();
         }
     }
 }

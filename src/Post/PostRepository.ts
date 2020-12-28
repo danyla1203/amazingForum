@@ -1,7 +1,7 @@
 import {PostRepoI} from "./PostModel";
 import {Repository} from "../lib/Repository";
 import {DatabaseError} from "../lib/Error";
-import {IncomingComment, Post} from "./types";
+import {IncomingComment, IncomingTopic, Post, Topic} from "./types";
 
 export class PostRepository extends Repository implements PostRepoI{
     async getCommentsForPost(post_id: number) {
@@ -22,6 +22,16 @@ export class PostRepository extends Repository implements PostRepoI{
             let fieldAndValues = this.getFieldValuesString(comment);
             let sql = `insert into comments($1) values($2)`;
             this.pg.query(sql, fieldAndValues);
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
+    async createTopic(topic: IncomingTopic) {
+        try {
+            let fieldAndValues = this.getFieldValuesString(topic);
+            let sql = "insert into topics($1) values($2) returning *";
+            let result = await this.pg.query<Topic>(sql, fieldAndValues);
+            return result.rows[0];
         } catch (e) {
             throw new DatabaseError(e);
         }

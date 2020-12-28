@@ -8,3 +8,11 @@ export class BadCommentData extends CustomError {
         })
     }
 }
+export class BadTopicData extends CustomError {
+    constructor() {
+        super({
+            statusCode: 400,
+            statusText: "Invalid data for topic"
+        })
+    }
+}
