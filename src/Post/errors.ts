@@ -16,3 +16,11 @@ export class BadTopicData extends CustomError {
         })
     }
 }
+export class BadAuthor extends CustomError {
+    constructor() {
+        super({
+            statusCode: 400,
+            statusText: "You can't update this topic"
+        })
+    }
+}

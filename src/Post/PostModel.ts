@@ -1,18 +1,20 @@
-import {Comment, IncomingComment, IncomingTopic, Post, Topic} from "./types";
-import {BadCommentData, BadTopicData} from "./errors";
+import {Comment, IncomingComment, IncomingTopic, Topic} from "./types";
+import {BadAuthor, BadCommentData, BadTopicData} from "./errors";
 
 export interface PostModelI {
-    getPost(post_id: number): Promise<Post>
+    getTopic(post_id: number): Promise<Topic>
     getComments(post_id: number): Promise<Comment[]>
     createComment(comment: IncomingComment): void
     createTopic(topic: IncomingTopic): Promise<Topic>
+    updateTopic(topic_id: number, updater_id: number, newTopicData: IncomingTopic): void
 }
 
 export interface PostRepoI {
-    getPostData(post_id: number): Promise<Post>
-    getCommentsForPost(post_id: number): Promise<Comment[]>
+    getTopicData(post_id: number): Promise<Topic>
+    getCommentsForTopic(post_id: number): Promise<Comment[]>
     insertComment(comment: IncomingComment): void
     createTopic(topic: IncomingTopic): Promise<Topic>
+    updateTopic(topic_id: number, newData: IncomingTopic): void
 }
 
 export class PostModel implements PostModelI {
@@ -47,12 +49,18 @@ export class PostModel implements PostModelI {
         }
         return true
     }
+    private verifyDataForTopicUpdate(topic: IncomingTopic): boolean {
+        return true;
+    }
+    private findUpdates(oldTopic: Topic, newTopic: IncomingTopic): IncomingTopic  {
+        return {}
+    }
 
-    async getPost(post_id: number) {
-        return this.repo.getPostData(post_id);
+    async getTopic(post_id: number) {
+        return this.repo.getTopicData(post_id);
     }
     async getComments(post_id: number) {
-        return this.repo.getCommentsForPost(post_id);
+        return this.repo.getCommentsForTopic(post_id);
     }
 
     createComment(comment: IncomingComment) {
@@ -70,6 +78,21 @@ export class PostModel implements PostModelI {
             return this.repo.createTopic(newTopic);
         } else {
             throw new BadTopicData();
+        }
+    }
+
+    async updateTopic(topic_id: number, updater_id: number, newTopicData: IncomingTopic) {
+        let oldTopic = await this.repo.getTopicData(topic_id);
+        if (oldTopic.author_id == updater_id) {
+            let isValid = this.verifyDataForTopicUpdate(oldTopic);
+            if(isValid) {
+                let updatedFields = this.findUpdates(oldTopic, newTopicData);
+                this.repo.updateTopic(oldTopic.topic_id, updatedFields);
+            } else {
+                throw new BadTopicData();
+            }
+        } else {
+            throw new BadAuthor();
         }
     }
 }

@@ -1,4 +1,4 @@
-import {get, post} from "../lib/httpMethodDecorators";
+import {get, post, put} from "../lib/httpMethodDecorators";
 import {Request} from "../lib/ExtendContext";
 import {PostModelI} from "./PostModel";
 import {AuthModelI} from "../Authentication/AuthenticationModel";
@@ -14,7 +14,7 @@ export class PostController {
     @get("/topic/:post_id")
     public getPost(req: Request) {
         let post_id = req.params.get("post_id");
-        return this.postModel.getPost(post_id);
+        return this.postModel.getTopic(post_id);
     }
 
     @get("/topic/:post_id/messages")
@@ -47,5 +47,16 @@ export class PostController {
             text: req.body.get("text"),
         };
         return this.postModel.createTopic(topic);
+    }
+    @put("/topic/:topic_id")
+    public async updateTopic(req: Request) {
+        let topic_id = req.params.get("topic_id");
+        let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        let newTopic = {
+            title: req.body.get("title"),
+            text: req.body.get("text"),
+            thread_id: req.body.get("thread_id"),
+        };
+        this.postModel.updateTopic(topic_id, user_id, newTopic);
     }
 }

@@ -1,10 +1,10 @@
 import {PostRepoI} from "./PostModel";
 import {Repository} from "../lib/Repository";
 import {DatabaseError} from "../lib/Error";
-import {IncomingComment, IncomingTopic, Post, Topic} from "./types";
+import {IncomingComment, IncomingTopic, Topic} from "./types";
 
 export class PostRepository extends Repository implements PostRepoI{
-    async getCommentsForPost(post_id: number) {
+    async getCommentsForTopic(post_id: number) {
         try {
             let sql = "select * from comments" +
                 " join topics" +
@@ -37,13 +37,22 @@ export class PostRepository extends Repository implements PostRepoI{
         }
     }
 
-    async getPostData(post_id: number) {
+    async getTopicData(post_id: number) {
         try {
-            let post = await this.pg.query<Post>(
+            let post = await this.pg.query<Topic>(
                 "select * from topics where topic_id = $1",
                 [post_id]
             );
             return post.rows[0];
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
+    async updateTopic(topic_id: number, newData: IncomingTopic) {
+        try {
+            let setPairs = this.getSetPair(newData);
+            let sql = "update topics set $1 where topic_id = $2";
+            await this.pg.query(sql, [setPairs, topic_id]);
         } catch (e) {
             throw new DatabaseError(e);
         }
