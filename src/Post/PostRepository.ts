@@ -39,10 +39,8 @@ export class PostRepository extends Repository implements PostRepoI{
 
     async getTopicData(post_id: number) {
         try {
-            let post = await this.pg.query<Topic>(
-                "select * from topics where topic_id = $1",
-                [post_id]
-            );
+            let sql = "select * from topics where topic_id = $1";
+            let post = await this.pg.query<Topic>(sql, [post_id]);
             return post.rows[0];
         } catch (e) {
             throw new DatabaseError(e);
