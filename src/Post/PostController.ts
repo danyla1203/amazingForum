@@ -25,7 +25,7 @@ export class PostController {
 
     @post("/topic/:post_id/add-comment")
     public async addComment(req: Request) {
-        let { user_id } = await this.authModel.verifySession(req.body.get("s_id"));
+        let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let topic_id = req.params.get("post_id");
         let text = req.body.get("text");
 
@@ -39,7 +39,7 @@ export class PostController {
 
     @post("/topic/create")
     public async createTopic(req: Request) {
-        let { user_id } = await this.authModel.verifySession(req.body.get("s_id"));
+        let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let topic = {
             author_id: user_id,
             thread_id: req.body.get("thread_id"),
