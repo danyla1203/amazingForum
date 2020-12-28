@@ -1,11 +1,14 @@
-import {get} from "../lib/httpMethodDecorators";
+import {get, post} from "../lib/httpMethodDecorators";
 import {Request} from "../lib/ExtendContext";
 import {PostModelI} from "./PostModel";
+import {AuthModelI} from "../Authentication/AuthenticationModel";
 
 export class PostController {
     postModel: PostModelI;
-    constructor(model: PostModelI) {
+    authModel: AuthModelI;
+    constructor(model: PostModelI, authModel: AuthModelI) {
         this.postModel = model;
+        this.authModel = authModel;
     }
 
     @get("/topic/:post_id")
@@ -18,5 +21,19 @@ export class PostController {
     public getMessages(req: Request) {
         let post_id = req.params.get("post_id");
         return this.postModel.getComments(post_id);
+    }
+
+    @post("/topic/:post_id/add-comment")
+    public async addComment(req: Request) {
+        let { user_id } = await this.authModel.verifySession(req.body.get("s_id"));
+        let topic_id = req.params.get("post_id");
+        let text = req.body.get("text");
+
+        let comment = {
+            author_id: user_id,
+            topic_id: topic_id,
+            text: text
+        };
+        this.postModel.createComment(comment);
     }
 }
