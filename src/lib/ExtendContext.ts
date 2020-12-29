@@ -43,8 +43,8 @@ export class ExtendContext {
                 let [cookieName, value] = splitedCookieString[i].split("=");
                 parsedCookies.set(cookieName, value);
             }
-            req.cookies = parsedCookies;
         }
+        req.cookies = parsedCookies;
     }
 
     private setCookies(res: Response) {
