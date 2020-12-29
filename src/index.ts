@@ -54,7 +54,7 @@ const controllers = [
     new AuthenticationController(authModel),
     new UserController(authModel, userModel),
     new ThreadController(threadModel),
-    new PostController(postModel)
+    new PostController(postModel, authModel)
 ];
 const bootstrap = new Bootstrap(controllers);
 
