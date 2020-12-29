@@ -1,5 +1,5 @@
 import * as crypto from "crypto";
-import {BadPassword, NoSuchUser} from "./errors";
+import {BadPassword, NoSessionCookie, NoSuchUser} from "./errors";
 import {UserData} from "./types";
 
 export interface AuthRepositoryI {
@@ -48,10 +48,18 @@ export class AuthenticationModel implements AuthModelI{
         return session_id;
     }
 
-    public async verifySession(session_id: string): Promise<UserData> {
-        return this.repo.getUserBySession(session_id);
+    public async verifySession(session_id?: string): Promise<UserData> {
+        if (session_id) {
+            return this.repo.getUserBySession(session_id);
+        } else {
+            throw new NoSessionCookie();
+        }
     }
     public logout(session_id: string) {
-        this.repo.destroySession(session_id);
+        if (session_id) {
+            this.repo.destroySession(session_id);
+        } else {
+            throw new NoSessionCookie();
+        }
     }
 }

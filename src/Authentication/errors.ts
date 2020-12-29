@@ -17,3 +17,11 @@ export class NoSuchUser extends CustomError {
         })
     }
 }
+export class NoSessionCookie extends CustomError {
+    constructor() {
+        super({
+            statusCode:400,
+            statusText: "session cookie is missing"
+        })
+    }
+}
