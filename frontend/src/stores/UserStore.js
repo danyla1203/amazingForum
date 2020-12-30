@@ -1,8 +1,44 @@
 import {observable} from "mobx";
 
 export class UserStore {
-    @observable user = null;
+    @observable user = {
+        user_id: 0,
+        name: "Bunga Ungovich",
+        email: "bungaMail@gmail.com",
+        country: "United States",
+    };
     @observable errors = null;
+    @observable userComments = null;
+    @observable usetTopics = null;
+
+
+    loadUserComments() {
+        fetch(`${process.env.API_HOST}/user/:user_id/comments`, {method: "POST", body: userData})
+            .then((response) => {
+                return response.json()
+            })
+            .then((userComments) => {
+                if (userComments.statusCode !== 200) {
+                    this.errors = userComments.statusText;
+                } else {
+                    this.user = userComments.payload;
+                }
+            })
+    }
+
+    loadUserTopics() {
+        fetch(`${process.env.API_HOST}/user/:user_id/topics`, {method: "POST", body: userData})
+            .then((response) => {
+                return response.json()
+            })
+            .then((userTopics) => {
+                if (userTopics.statusCode !== 200) {
+                    this.errors = userTopics.statusText;
+                } else {
+                    this.user = userTopics.payload;
+                }
+            })
+    }
 
     createUser(userData) {
         fetch(`${process.env.API_HOST}/register`, {method: "POST", body: userData})
@@ -17,7 +53,7 @@ export class UserStore {
                 }
             })
     }
-
+    
     changeUserData(userData) {
         fetch(`${process.env.API_HOST}/user`, {method: "PUT", body: userData})
             .then((response) => {
