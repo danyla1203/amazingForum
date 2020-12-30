@@ -2,7 +2,7 @@ import {observable} from "mobx/lib/mobx";
 
 export class CurrentTopicStore {
     @observable selected_topic = null;
-    @observable comments = null;
+    @observable comments = [];
 
     loadSelectedTopic(topic_id) {
         fetch(`${process.env.API_HOST}/topic/${topic_id}`)
@@ -10,7 +10,22 @@ export class CurrentTopicStore {
                 return response.json();
             })
             .then((topic) => {
-                this.selected_topic = topic.payload;
+                if (topic.statusCode == 200) {
+                    this.selected_topic = topic.payload;
+                }
+            })
+    }
+
+    addComment(topic_id, comment) {
+        this.comments.push(comment);
+        fetch(`${process.env.API_HOST}/topic/${topic_id}/add-comment`, { method: "POST", body: comment })
+            .then((response) => {
+                return response.json();
+            })
+            .then((topic) => {
+                if (topic.statusCode == 200) {
+                    this.selected_topic = topic.payload;
+                }
             })
     }
 
@@ -20,7 +35,9 @@ export class CurrentTopicStore {
                 return response.json();
             })
             .then((comments) => {
-                this.comments = comments.payload;
+                if (comments.statusCode == 200) {
+                    this.comments = comments.payload;
+                }
             })
     }
 }
