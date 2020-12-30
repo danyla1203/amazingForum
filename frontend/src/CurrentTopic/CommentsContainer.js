@@ -1,7 +1,22 @@
 import React from "react"
 import {Comment} from "./Comment";
+import {CommentForm} from "./CommentForm";
+import { observer, inject } from "mobx-react";
 
+@inject("currentTopicStore")
+@observer
 export default class CommentsContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.submitComment = this.submitComment.bind(this);
+    }
+
+    componentDidMount() {
+        if(!this.props.currentTopicStore.comments < 1) {
+            this.props.currentTopicStore.loadComments(this.props.topic_id);
+        }
+    }
+
     renderComments(comments) {
         return comments.map((comment) => {
             return (
@@ -15,10 +30,17 @@ export default class CommentsContainer extends React.Component {
         })
     }
 
+    submitComment(formData) {
+        this.props.currentTopicStore.addComment(this.props.topic_id, formData);
+    }
+
     render() {
-        let comments = this.renderComments(this.props.comments);
+        let comments = this.renderComments(this.props.currentTopicStore.comments);
         return (
             <div id="comments">
+                <CommentForm
+                    submitComment={this.submitComment}
+                />
                 { comments }
             </div>
         )
