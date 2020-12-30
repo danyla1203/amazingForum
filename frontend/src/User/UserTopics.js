@@ -22,14 +22,14 @@ export default class UserTopics extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.props.userStore.usetTopics) {
+        if (!this.props.userStore.userTopics) {
             this.props.userStore.loadUserTopics();
         }
     }
 
     render() {
-        if (this.props.userStore.usetTopics) {
-            const renderedTopics = this.renderShortTopics(this.props.userStore.usetTopics);
+        if (this.props.userStore.userTopics) {
+            const renderedTopics = this.renderShortTopics(this.props.userStore.userTopics);
             return (
                 <div>
                     { renderedTopics }
