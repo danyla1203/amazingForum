@@ -1,6 +1,7 @@
 import {IncorrectPassword, IncorrectUserData} from "./errors";
 import {UpdatedUserData, UserData, UserIncomingData} from "./types";
 import {Comment} from "../Post/types";
+import {ShortTopic} from "../Thread/types";
 
 export interface UserRepositoryI {
     deleteUserFromBd(user_id: number): void
@@ -9,6 +10,7 @@ export interface UserRepositoryI {
     updateUser(updates: any, user_id: number): void
     updateSessionData(updates: any): void
     getCommentsForUser(id: number): Promise<Comment[]>
+    getTopicsForUser(id: number): Promise<ShortTopic[]>
 }
 
 export class UserModel {
@@ -67,5 +69,8 @@ export class UserModel {
 
     public getCommentsForUser(user_id: number) {
         return this.userRepo.getCommentsForUser(user_id);
+    }
+    public getTopicsForUser(user_id: number) {
+        return this.userRepo.getTopicsForUser(user_id);
     }
 }

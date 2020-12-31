@@ -56,4 +56,13 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
+    async getTopicsForUser(user_id: number) {
+        try {
+            let sql =
+                `select from topics
+                where user_id = $1`
+            let result = await this.pg.query(sql, [user_id])
+            return result.rows
+        }
+    }
 }

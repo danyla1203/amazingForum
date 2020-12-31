@@ -54,4 +54,9 @@ export class UserController {
     async getCommentsForUser(req: Request) {
         return this.userModel.getCommentsForUser(req.params.get("user_id"));
     }
+
+    @get("/user/:user_id/topics")
+    async getTopicsForUser(req: Request) {
+
+    }
 }
