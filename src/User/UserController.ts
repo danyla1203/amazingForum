@@ -49,4 +49,9 @@ export class UserController {
         let user = await this.authModel.verifySession(session_id);
         this.userModel.deleteUser(session_id, user.user_id);
     }
+
+    @get("/user/:user_id/comments")
+    async getCommentsForUser(req: Request) {
+        return this.userModel.getCommentsForUser(req.params.get("user_id"));
+    }
 }

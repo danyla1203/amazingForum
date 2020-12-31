@@ -1,5 +1,6 @@
 import {IncorrectPassword, IncorrectUserData} from "./errors";
 import {UpdatedUserData, UserData, UserIncomingData} from "./types";
+import {Comment} from "../Post/types";
 
 export interface UserRepositoryI {
     deleteUserFromBd(user_id: number): void
@@ -7,6 +8,7 @@ export interface UserRepositoryI {
     createUser(user: UserIncomingData): Promise<UserData>
     updateUser(updates: any, user_id: number): void
     updateSessionData(updates: any): void
+    getCommentsForUser(id: number): Promise<Comment[]>
 }
 
 export class UserModel {
@@ -61,5 +63,9 @@ export class UserModel {
     public async deleteUser(s_id: string, user_id: number) {
         this.userRepo.deleteUserFromBd(user_id);
         this.userRepo.destroySession(s_id);
+    }
+
+    public getCommentsForUser(user_id: number) {
+        return this.userRepo.getCommentsForUser(user_id);
     }
 }
