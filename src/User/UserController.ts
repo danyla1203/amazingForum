@@ -57,6 +57,6 @@ export class UserController {
 
     @get("/user/:user_id/topics")
     async getTopicsForUser(req: Request) {
-
+        return this.userModel.getTopicsForUser(req.params.get("user_id"));
     }
 }
