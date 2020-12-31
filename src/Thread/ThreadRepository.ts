@@ -19,13 +19,15 @@ export class ThreadRepository extends Repository implements ThreadRepositoryI {
             throw new DatabaseError(e.message);
         }
     }
-    async getPosts(thread_id: number) {
+    async getShortPosts(thread_id: number) {
         try {
-            let result = await this.pg.query(
-                "select * from topics where topics.thread_id = $1",
-                [thread_id]
-            );
-            return result.rows || [];
+            let sql =
+                `select topic_id, avatar_path as author_url, nickname as author_name, title, date from topics
+                 join users
+                 on users.user_d = topics.author_id
+                 where thread_id = $1`;
+            let result = await this.pg.query(sql, [thread_id]);
+            return result.rows;
         } catch (e) {
             throw new DatabaseError(e.message);
         }

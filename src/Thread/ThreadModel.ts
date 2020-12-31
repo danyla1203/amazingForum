@@ -1,13 +1,13 @@
-import {Thread} from "./types";
+import {ShortTopic, Thread} from "./types";
 
 export interface ThreadRepositoryI {
     getThreads(): Promise<Thread[]>
-    getPosts(thread_id: number): Promise<any>
+    getShortPosts(thread_id: number): Promise<ShortTopic[]>
 }
 
 export interface ThreadModelI {
     getAllThreads(): Promise<Thread[]>
-    getPostsFromThread(thread_id: number): Promise<any>
+    getPostsFromThread(thread_id: number): Promise<ShortTopic[]>
 }
 
 export class ThreadModel implements ThreadModelI{
@@ -21,7 +21,7 @@ export class ThreadModel implements ThreadModelI{
     }
 
     public getPostsFromThread(thread_id: number) {
-        return this.threadRepo.getPosts(thread_id);
+        return this.threadRepo.getShortPosts(thread_id);
     }
 
 }
