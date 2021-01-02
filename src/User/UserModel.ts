@@ -3,6 +3,14 @@ import {UpdatedUserData, UserData, UserIncomingData} from "./types";
 import {Comment} from "../Post/types";
 import {ShortTopic} from "../Thread/types";
 
+export interface UserModelI {
+    insertUser(user: UserIncomingData): Promise<UserData>
+    updateUserData(newUser: UpdatedUserData, prevUserData: UserData): any
+    deleteUser(s_id: string, user_id: number): void
+    getCommentsForUser(user_id: number): Promise<Comment[]>
+    getTopicsForUser(user_id: number): Promise<ShortTopic[]>
+}
+
 export interface UserRepositoryI {
     deleteUserFromBd(user_id: number): void
     destroySession(session_id: string): void
@@ -13,7 +21,7 @@ export interface UserRepositoryI {
     getTopicsForUser(id: number): Promise<ShortTopic[]>
 }
 
-export class UserModel {
+export class UserModel implements UserModelI {
     userRepo: UserRepositoryI;
     constructor(repo: UserRepositoryI) {
         this.userRepo = repo;

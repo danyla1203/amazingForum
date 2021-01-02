@@ -1,12 +1,12 @@
 import {AuthModelI} from "../Authentication/AuthenticationModel";
 import {Request, Response} from "../lib/ExtendContext";
 import {Delete, get, post, put} from "../lib/httpMethodDecorators";
-import {UserModel} from "./UserModel";
+import {UserModel, UserModelI} from "./UserModel";
 import {UserIncomingData} from "./types";
 
 export class UserController {
     authModel: AuthModelI;
-    userModel: UserModel;
+    userModel: UserModelI;
     constructor(authModel: AuthModelI, userModel: UserModel) {
         this.authModel = authModel;
         this.userModel = userModel;
