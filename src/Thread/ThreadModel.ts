@@ -16,11 +16,11 @@ export class ThreadModel implements ThreadModelI{
         this.threadRepo = threadRepo;
     }
 
-    public getAllThreads() {
+    public getAllThreads(): Promise<Thread[]> {
         return this.threadRepo.getThreads();
     }
 
-    public getPostsFromThread(thread_id: number) {
+    public getPostsFromThread(thread_id: number): Promise<ShortTopic[]> {
         return this.threadRepo.getShortPosts(thread_id);
     }
 
