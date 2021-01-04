@@ -5,12 +5,12 @@ import {UserData} from "./types";
 export interface AuthRepositoryI {
     getUserByName(nickname: string): Promise<UserData | undefined>
     createSession(session_id: string, userData: UserData): Promise<any>
-    getUserBySession(session_id: string): Promise<UserData | undefined>
+    getUserBySession(session_id: string): Promise<UserData>
     destroySession(session_id: string): void
 }
 
 export interface AuthModelI {
-    verifyCredential(name: string, password: string): Promise<UserData | undefined>
+    verifyCredential(name: string, password: string): Promise<UserData>
     createSession(userData: UserData): Promise<string>
     verifySession(session_id: string): Promise<UserData>
     logout(session_id: string): void
@@ -30,7 +30,7 @@ export class AuthenticationModel implements AuthModelI{
             .digest("hex");
     }
 
-    public async verifyCredential(name: string, password: string) {
+    public async verifyCredential(name: string, password: string): Promise<UserData> {
         let user: UserData | undefined = await this.repo.getUserByName(name);
         if (!user) {
             throw new NoSuchUser();
@@ -55,7 +55,8 @@ export class AuthenticationModel implements AuthModelI{
             throw new NoSessionCookie();
         }
     }
-    public logout(session_id: string) {
+
+    public async logout(session_id: string): Promise<void> {
         if (session_id) {
             this.repo.destroySession(session_id);
         } else {

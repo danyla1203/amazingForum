@@ -10,7 +10,7 @@ export class AuthenticationController {
     }
 
     @post("/login")
-    async login(req: Request, res: Response) {
+    async login(req: Request, res: Response): Promise<UserData> {
         let name = req.body.get("name");
         let password = req.body.get("password");
 
@@ -23,7 +23,8 @@ export class AuthenticationController {
     }
 
     @get("/logout")
-    async logout(req: Request) {
-        this.authModel.logout(req.cookies.get("s_id"));
+    async logout(req: Request): Promise<string> {
+        await this.authModel.logout(req.cookies.get("s_id"));
+        return "Session is deleted";
     }
 }

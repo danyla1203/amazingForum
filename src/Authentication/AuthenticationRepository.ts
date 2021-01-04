@@ -21,16 +21,16 @@ export class AuthenticationRepository extends Repository implements AuthReposito
             throw new DatabaseError(e);
         }
     }
-    async getUserBySession(session_id: string): Promise<UserData | undefined> {
+    async getUserBySession(session_id: string): Promise<UserData> {
         try {
-            return this.redisConn.hgetall<UserData | undefined>(session_id);
+            return this.redisConn.hgetall<UserData>(session_id);
         } catch (e) {
             throw new DatabaseError(e);
         }
     }
-    destroySession(session_id: string) {
+    async destroySession(session_id: string): Promise<void> {
         try {
-            this.redisConn.del(session_id);
+            await this.redisConn.del(session_id);
         } catch (e) {
             throw new DatabaseError(e);
         }
