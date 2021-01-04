@@ -11,5 +11,10 @@ export class RequestMock extends IncomingMessage implements CustomRequest {
 
     constructor() {
         super(new Socket());
+        this.url = "";
+        this.method = "";
+        this.params = new Map();
+        this.body = new Map();
+        this.cookies = new Map();
     }
 }
