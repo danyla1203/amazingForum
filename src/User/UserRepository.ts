@@ -3,9 +3,10 @@ import {DatabaseError} from "../lib/Error";
 import {UserData, UserIncomingData} from "./types";
 import {Repository} from "../lib/Repository";
 import {Comment} from "../Post/types";
+import {ShortTopic} from "../Thread/types";
 
 export class UserRepository extends Repository implements UserRepositoryI{
-    async deleteUserFromBd(user_id: number) {
+    async deleteUserFromBd(user_id: number): Promise<void> {
         let sql = `delete from users where user_id=${user_id}`;
         try {
             this.pg.query(sql);
@@ -13,14 +14,14 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
-    async destroySession(session_id: string) {
+    async destroySession(session_id: string): Promise<void> {
         try {
             this.redisConn.del(session_id);
         } catch (e) {
             throw new DatabaseError(e);
         }
     }
-    async createUser(user: UserData) {
+    async createUser(user: UserData): Promise<UserData> {
         let [field, values] = this.getFieldValuesString(user);
         try {
             let result = await this.pg.query<{id: number}>(
@@ -32,7 +33,7 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
-    async updateUser(updates: UserIncomingData) {
+    async updateUser(updates: UserIncomingData): Promise<void> {
         let setString = this.getSetPair(updates);
         try {
             this.pg.query(
@@ -47,7 +48,7 @@ export class UserRepository extends Repository implements UserRepositoryI{
 
     }
 
-    async getCommentsForUser(user_id: number) {
+    async getCommentsForUser(user_id: number): Promise<Comment[]> {
         try {
             let sql = "select * from comments where user_id = $1";
             let result = await this.pg.query<Comment>(sql, [user_id]);
@@ -56,12 +57,12 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
-    async getTopicsForUser(user_id: number) {
+    async getTopicsForUser(user_id: number): Promise<ShortTopic[]> {
         try {
             let sql =
                 `select from topics
-                where user_id = $1`
-            let result = await this.pg.query(sql, [user_id])
+                where user_id = $1`;
+            let result = await this.pg.query(sql, [user_id]);
             return result.rows
         }
     }

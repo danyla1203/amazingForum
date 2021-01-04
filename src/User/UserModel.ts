@@ -40,7 +40,7 @@ export class UserModel implements UserModelI {
         }
         return true
     }
-    private findUpdates(newUser: Object, prevUser: Object) {
+    private findUpdates(newUser: Object, prevUser: Object): Object {
         let updatedColumns = {};
         for(let column in prevUser) {
             if (newUser[column] != prevUser[column]) {
@@ -50,7 +50,7 @@ export class UserModel implements UserModelI {
         return updatedColumns;
     }
 
-    public async insertUser(user: UserIncomingData) {
+    public async insertUser(user: UserIncomingData): Promise<UserData> {
         let isDataCorrect = this.verifyIncomingData(user);
         if (isDataCorrect) {
             return this.userRepo.createUser(user);
@@ -59,7 +59,11 @@ export class UserModel implements UserModelI {
         }
     }
 
-    public async updateUserData(newUser: UpdatedUserData, prevUserData: UserData) {
+    public async updateUserData
+    (
+        newUser: UpdatedUserData,
+        prevUserData: UserData
+    ): Promise<void> {
         if (newUser.prevPassword != prevUserData.password) {
             //if provided incorrect last password
             throw new IncorrectPassword();
@@ -70,15 +74,15 @@ export class UserModel implements UserModelI {
         }
     }
 
-    public async deleteUser(s_id: string, user_id: number) {
+    public async deleteUser(s_id: string, user_id: number): Promise<void> {
         this.userRepo.deleteUserFromBd(user_id);
         this.userRepo.destroySession(s_id);
     }
 
-    public getCommentsForUser(user_id: number) {
+    public getCommentsForUser(user_id: number): Promise<Comment[]> {
         return this.userRepo.getCommentsForUser(user_id);
     }
-    public getTopicsForUser(user_id: number) {
+    public getTopicsForUser(user_id: number): Promise<ShortTopic[]> {
         return this.userRepo.getTopicsForUser(user_id);
     }
 }

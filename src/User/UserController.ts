@@ -2,7 +2,9 @@ import {AuthModelI} from "../Authentication/AuthenticationModel";
 import {Request, Response} from "../lib/ExtendContext";
 import {Delete, get, post, put} from "../lib/httpMethodDecorators";
 import {UserModel, UserModelI} from "./UserModel";
-import {UserIncomingData} from "./types";
+import {UserData, UserIncomingData} from "./types";
+import {Comment} from "../Post/types";
+import {ShortTopic} from "../Thread/types";
 
 export class UserController {
     authModel: AuthModelI;
@@ -13,7 +15,7 @@ export class UserController {
     }
 
     @post("/register")
-    async register(req: Request, res: Response) {
+    async register(req: Request, res: Response): Promise<UserData> {
         let userData: UserIncomingData = {
             nickname: req.body.get("name"),
             password: req.body.get("password"),
@@ -29,7 +31,7 @@ export class UserController {
     }
 
     @get("/user")
-    getUser(req: Request) {
+    getUser(req: Request): Promise<UserData> {
         let session_id = req.cookies.get("s_id");
         let user = this.authModel.verifySession(session_id);
         return user;
@@ -44,19 +46,19 @@ export class UserController {
     }
 
     @Delete("/user")
-    async deleteUser(req: Request) {
+    async deleteUser(req: Request): Promise<void> {
         let session_id = req.cookies.get("s_id");
         let user = await this.authModel.verifySession(session_id);
         this.userModel.deleteUser(session_id, user.user_id);
     }
 
     @get("/user/:user_id/comments")
-    async getCommentsForUser(req: Request) {
+    async getCommentsForUser(req: Request): Promise<Comment[]> {
         return this.userModel.getCommentsForUser(req.params.get("user_id"));
     }
 
     @get("/user/:user_id/topics")
-    async getTopicsForUser(req: Request) {
+    async getTopicsForUser(req: Request): Promise<ShortTopic[]> {
         return this.userModel.getTopicsForUser(req.params.get("user_id"));
     }
 }
