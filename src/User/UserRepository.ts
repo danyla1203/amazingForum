@@ -64,6 +64,8 @@ export class UserRepository extends Repository implements UserRepositoryI{
                 where user_id = $1`;
             let result = await this.pg.query(sql, [user_id]);
             return result.rows
+        } catch (e) {
+            throw new DatabaseError(e);
         }
     }
 }
