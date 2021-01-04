@@ -29,9 +29,13 @@ export class UserModel implements UserModelI {
 
     private verifyIncomingData(user: UserIncomingData): boolean {
         let necessaryColumns = ["nickname", "password", "email"];
+        let mappedUser = new Map(Object.entries(user));
+
         for (let i = 0; i < necessaryColumns.length; i++) {
-            if (necessaryColumns[i] in user) {
-                if (user[necessaryColumns[i]].length < 2) {
+            let column = necessaryColumns[i];
+            let valueFromMap = mappedUser.get(column);
+            if (valueFromMap) {
+                if (valueFromMap.length < 2) {
                     return false;
                 }
             } else {
@@ -42,9 +46,15 @@ export class UserModel implements UserModelI {
     }
     private findUpdates(newUser: Object, prevUser: Object): Object {
         let updatedColumns = {};
+        let mappedPrevUser = new Map(Object.entries(prevUser));
+        let mappedNewUser = new Map(Object.entries(newUser));
+
         for(let column in prevUser) {
-            if (newUser[column] != prevUser[column]) {
-                updatedColumns[column] = newUser[column];
+            let newUserColumn = mappedNewUser.get(column);
+            let prevUserColumn = mappedPrevUser.get(column);
+
+            if (newUserColumn != prevUserColumn) {
+                updatedColumns[column] = newUserColumn;
             }
         }
         return updatedColumns;
@@ -63,7 +73,8 @@ export class UserModel implements UserModelI {
     (
         newUser: UpdatedUserData,
         prevUserData: UserData
-    ): Promise<void> {
+    ): Promise<void>
+    {
         if (newUser.prevPassword != prevUserData.password) {
             //if provided incorrect last password
             throw new IncorrectPassword();
