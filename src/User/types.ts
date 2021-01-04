@@ -3,6 +3,8 @@ export type UserData = {
     nickname: string
     password: string
     email: string
+    avatar_path: string
+    registration_date: string
 }
 
 export type UserIncomingData = {

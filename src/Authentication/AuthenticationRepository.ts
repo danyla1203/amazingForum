@@ -1,7 +1,7 @@
 import {AuthRepositoryI} from "./AuthenticationModel";
-import {UserData} from "./types";
 import {Repository} from "../lib/Repository";
 import {DatabaseError} from "../lib/Error";
+import {UserData} from "../User/types";
 
 export class AuthenticationRepository extends Repository implements AuthRepositoryI{
     async getUserByName(nickname: string) {

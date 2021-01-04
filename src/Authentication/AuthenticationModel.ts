@@ -1,6 +1,6 @@
 import * as crypto from "crypto";
 import {BadPassword, NoSessionCookie, NoSuchUser} from "./errors";
-import {UserData} from "./types";
+import {UserData} from "../User/types";
 
 export interface AuthRepositoryI {
     getUserByName(nickname: string): Promise<UserData | undefined>

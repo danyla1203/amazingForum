@@ -1,7 +1,7 @@
 import {AuthModelI} from "./AuthenticationModel";
 import {get, post} from "../lib/httpMethodDecorators";
 import {Request, Response} from "../lib/ExtendContext";
-import {UserData} from "./types";
+import {UserData} from "../User/types";
 
 export class AuthenticationController {
     authModel: AuthModelI;
