@@ -2,6 +2,7 @@ import {get, post, put} from "../lib/httpMethodDecorators";
 import {Request} from "../lib/ExtendContext";
 import {PostModelI} from "./PostModel";
 import {AuthModelI} from "../Authentication/AuthenticationModel";
+import {Topic} from "./types";
 
 export class PostController {
     postModel: PostModelI;
@@ -12,7 +13,7 @@ export class PostController {
     }
 
     @get("/topic/:post_id")
-    public getPost(req: Request) {
+    public getPost(req: Request): Promise<Topic> {
         let post_id = req.params.get("post_id");
         return this.postModel.getTopic(post_id);
     }
@@ -24,7 +25,7 @@ export class PostController {
     }
 
     @post("/topic/:post_id/add-comment")
-    public async addComment(req: Request) {
+    public async addComment(req: Request): Promise<void> {
         let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let topic_id = req.params.get("post_id");
         let text = req.body.get("text");
@@ -38,7 +39,7 @@ export class PostController {
     }
 
     @post("/topic/create")
-    public async createTopic(req: Request) {
+    public async createTopic(req: Request): Promise<Topic> {
         let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let topic = {
             author_id: user_id,
@@ -49,7 +50,7 @@ export class PostController {
         return this.postModel.createTopic(topic);
     }
     @put("/topic/:topic_id")
-    public async updateTopic(req: Request) {
+    public async updateTopic(req: Request): Promise<void> {
         let topic_id = req.params.get("topic_id");
         let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let newTopic = {

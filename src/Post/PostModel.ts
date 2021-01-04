@@ -6,7 +6,7 @@ export interface PostModelI {
     getComments(post_id: number): Promise<Comment[]>
     createComment(comment: IncomingComment): void
     createTopic(topic: IncomingTopic): Promise<Topic>
-    updateTopic(topic_id: number, updater_id: number, newTopicData: IncomingTopic): void
+    updateTopic(topic_id: number, updater_id: number, newTopicData: IncomingTopic): Promise<void>
 }
 
 export interface PostRepoI {
@@ -56,14 +56,13 @@ export class PostModel implements PostModelI {
         return {}
     }
 
-    async getTopic(post_id: number) {
+    public async getTopic(post_id: number): Promise<Topic> {
         return this.repo.getTopicData(post_id);
     }
-    async getComments(post_id: number) {
+    public async getComments(post_id: number): Promise<Comment[]> {
         return this.repo.getCommentsForTopic(post_id);
     }
-
-    createComment(comment: IncomingComment) {
+    public createComment(comment: IncomingComment): void {
         let isCommentValid = this.verifyIncomingCommentData(comment);
         if (isCommentValid) {
             this.repo.insertComment(comment)
@@ -71,8 +70,7 @@ export class PostModel implements PostModelI {
             throw new BadCommentData();
         }
     }
-
-    createTopic(newTopic: IncomingTopic) {
+    public createTopic(newTopic: IncomingTopic): Promise<Topic> {
         let isTopicValid = this.verifyTopicData(newTopic);
         if (isTopicValid) {
             return this.repo.createTopic(newTopic);
@@ -81,7 +79,12 @@ export class PostModel implements PostModelI {
         }
     }
 
-    async updateTopic(topic_id: number, updater_id: number, newTopicData: IncomingTopic) {
+    public async updateTopic
+    (
+        topic_id: number,
+        updater_id: number,
+        newTopicData: IncomingTopic
+    ): Promise<void> {
         let oldTopic = await this.repo.getTopicData(topic_id);
         if (oldTopic.author_id == updater_id) {
             let isValid = this.verifyDataForTopicUpdate(oldTopic);
