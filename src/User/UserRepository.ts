@@ -33,12 +33,12 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
-    async updateUser(updates: UserIncomingData): Promise<void> {
+    async updateUser(updates: UserIncomingData, user_id: number): Promise<void> {
         let setString = this.getSetPair(updates);
         try {
             this.pg.query(
-                "update users set $1",
-                [ setString ]
+                "update users set $1 where user_id = $2",
+                [ setString, user_id ]
             )
         } catch (e) {
             throw new DatabaseError(e);
