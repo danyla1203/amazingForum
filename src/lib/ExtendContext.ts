@@ -25,6 +25,7 @@ export class ExtendContext {
         let splitedUrl = url.substring(1).split("/");
         let splitedPattern = pattern.substring(1).split("/");
         req.params = new Map();
+
         for (let i = 0; i < splitedPattern.length; i++) {
             if (splitedPattern[i][0] == ":") {
                 let paramName = splitedPattern[i].substring(1);
@@ -41,7 +42,7 @@ export class ExtendContext {
             let splitedCookieString = cookieString.split(";");
             for (let i = 0; i < splitedCookieString.length; i++) {
                 let [cookieName, value] = splitedCookieString[i].split("=");
-                parsedCookies.set(cookieName, value);
+                parsedCookies.set(`${cookieName}`.trim(), value);
             }
         }
         req.cookies = parsedCookies;
