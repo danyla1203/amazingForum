@@ -6,8 +6,22 @@ export class UserStore {
     @observable userComments = null;
     @observable userTopics = null;
 
+    constructor() {
+        fetch(`${process.env.API_HOST}/user`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((user) => {
+                if(user.statusCode !== 200) {
+                    this.errors = user.statusText;
+                } else {
+                    this.user = user.payload;
+                }
+            })
+    }
+
     loadUserComments() {
-        fetch(`${process.env.API_HOST}/user/:user_id/comments`)
+        fetch(`${process.env.API_HOST}/user/${this.user.id}/comments`)
             .then((response) => {
                 return response.json()
             })
@@ -15,13 +29,13 @@ export class UserStore {
                 if (userComments.statusCode !== 200) {
                     this.errors = userComments.statusText;
                 } else {
-                    this.user = userComments.payload;
+                    this.userTopics = userComments.payload;
                 }
             })
     }
 
     loadUserTopics() {
-        fetch(`${process.env.API_HOST}/user/:user_id/topics`)
+        fetch(`${process.env.API_HOST}/user/${this.user.id}/topics`)
             .then((response) => {
                 return response.json()
             })
@@ -29,7 +43,7 @@ export class UserStore {
                 if (userTopics.statusCode !== 200) {
                     this.errors = userTopics.statusText;
                 } else {
-                    this.user = userTopics.payload;
+                    this.userTopics = userTopics.payload;
                 }
             })
     }
