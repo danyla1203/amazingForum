@@ -29,7 +29,7 @@ export class UserStore {
                 if (userComments.statusCode !== 200) {
                     this.errors = userComments.statusText;
                 } else {
-                    this.userTopics = userComments.payload;
+                    this.userComments = userComments.payload;
                 }
             })
     }
