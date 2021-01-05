@@ -7,7 +7,7 @@ import {ShortTopic} from "../Thread/types";
 
 export class UserRepository extends Repository implements UserRepositoryI{
     async deleteUserFromBd(user_id: number): Promise<void> {
-        let sql = `delete from users where user_id=${user_id}`;
+        let sql = `delete from users where id=${user_id}`;
         try {
             this.pg.query(sql);
         } catch (e) {
@@ -37,7 +37,7 @@ export class UserRepository extends Repository implements UserRepositoryI{
         let setString = this.getSetPair(updates);
         try {
             this.pg.query(
-                "update users set $1 where user_id = $2",
+                "update users set $1 where id = $2",
                 [ setString, user_id ]
             )
         } catch (e) {
@@ -50,19 +50,20 @@ export class UserRepository extends Repository implements UserRepositoryI{
 
     async getCommentsForUser(user_id: number): Promise<Comment[]> {
         try {
-            let sql = "select * from comments where user_id = $1";
-            let result = await this.pg.query<Comment>(sql, [user_id]);
+            let sql = `select * from comments where author_id = ${user_id}`;
+            let result = await this.pg.query<Comment>(sql);
             return result.rows;
         } catch (e) {
             throw new DatabaseError(e);
         }
     }
     async getTopicsForUser(user_id: number): Promise<ShortTopic[]> {
+        console.log(user_id);
         try {
             let sql =
                 `select from topics
-                where user_id = $1`;
-            let result = await this.pg.query(sql, [user_id]);
+                where author_id = ${user_id}`;
+            let result = await this.pg.query(sql);
             return result.rows
         } catch (e) {
             throw new DatabaseError(e);
