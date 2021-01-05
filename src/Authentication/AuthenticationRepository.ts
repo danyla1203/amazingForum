@@ -23,7 +23,7 @@ export class AuthenticationRepository extends Repository implements AuthReposito
     }
     async getUserBySession(session_id: string): Promise<UserData> {
         try {
-            return this.redisConn.hgetall<UserData>(session_id);
+            return this.redisConn.hgetall<UserData>(`user:${session_id}`);
         } catch (e) {
             throw new DatabaseError(e);
         }
