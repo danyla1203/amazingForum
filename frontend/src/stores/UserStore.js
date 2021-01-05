@@ -1,19 +1,13 @@
 import {observable} from "mobx";
 
 export class UserStore {
-    @observable user = {
-        user_id: 0,
-        name: "Bunga Ungovich",
-        email: "bungaMail@gmail.com",
-        country: "United States",
-    };
+    @observable user = null;
     @observable errors = null;
     @observable userComments = null;
-    @observable usetTopics = null;
-
+    @observable userTopics = null;
 
     loadUserComments() {
-        fetch(`${process.env.API_HOST}/user/:user_id/comments`, {method: "POST", body: userData})
+        fetch(`${process.env.API_HOST}/user/:user_id/comments`)
             .then((response) => {
                 return response.json()
             })
@@ -27,7 +21,7 @@ export class UserStore {
     }
 
     loadUserTopics() {
-        fetch(`${process.env.API_HOST}/user/:user_id/topics`, {method: "POST", body: userData})
+        fetch(`${process.env.API_HOST}/user/:user_id/topics`)
             .then((response) => {
                 return response.json()
             })
