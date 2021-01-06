@@ -1,11 +1,12 @@
 import {Pool} from "pg";
 import {Redis} from "ioredis";
+import {RedisClient} from "redis";
 
 export class Repository {
     pg: Pool;
-    redisConn: Redis;
+    redisConn: RedisClient;
 
-    constructor(redisConn: Redis, pgConn: Pool) {
+    constructor(redisConn: RedisClient, pgConn: Pool) {
         this.redisConn = redisConn;
         this.pg = pgConn;
     }
