@@ -65,5 +65,4 @@ describe("testing set params func", () => {
         bootstrapTest.ExtendContext["setParamsFromUri"](request.url, "/test/:var1/:var2", request);
         expect(request.params).toStrictEqual(new Map([["var1", "1"], ["var2", "2"]]));
     })
-
 });
