@@ -50,7 +50,7 @@ export class UserModel implements UserModelI {
         prevUser: {[index:string]: string}
     ): Object {
         let updatedColumns: { [index:string]: string } = {};
-        for(let column in prevUser) {
+        for(let column in newUser) {
             if (newUser[column].length < 2) {
                 continue
             }
@@ -80,8 +80,8 @@ export class UserModel implements UserModelI {
             //if provided incorrect last password
             throw new IncorrectPassword();
         } else {
-            let updates = this.findUpdates(newUser, prevUserData);
-            this.userRepo.updateUser(updates, prevUserData.user_id);
+            let updates = this.findUpdates(newUser.user, prevUserData);
+            this.userRepo.updateUser(updates, prevUserData.id);
             this.userRepo.updateSessionData(updates);
         }
     }
