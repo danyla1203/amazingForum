@@ -44,20 +44,18 @@ export class UserModel implements UserModelI {
         }
         return true
     }
-    private findUpdates(newUser: Object, prevUser: Object): Object {
+    private findUpdates
+    (
+        newUser: {[index:string]: string},
+        prevUser: {[index:string]: string}
+    ): Object {
         let updatedColumns: { [index:string]: string } = {};
-        let mappedPrevUser = new Map(Object.entries(prevUser));
-        let mappedNewUser = new Map(Object.entries(newUser));
-
         for(let column in prevUser) {
-            let newUserColumn = mappedNewUser.get(column);
-            let prevUserColumn = mappedPrevUser.get(column);
-
-            if (newUserColumn.length < 2) {
+            if (newUser[column].length < 2) {
                 continue
             }
-            if (newUserColumn != prevUserColumn) {
-                updatedColumns[column] = newUserColumn;
+            if (newUser[column] != prevUser[column]) {
+                updatedColumns[column] = newUser[column];
             }
         }
         return updatedColumns;
