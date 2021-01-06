@@ -5,7 +5,7 @@ import {ShortTopic} from "../Thread/types";
 
 export interface UserModelI {
     insertUser(user: UserIncomingData): Promise<UserData>
-    updateUserData(newUser: UpdatedUserData, prevUserData: UserData): any
+    updateUserData(session_id: string, newUser: UpdatedUserData, prevUserData: UserData): any
     deleteUser(s_id: string, user_id: number): void
     getCommentsForUser(user_id: number): Promise<Comment[]>
     getTopicsForUser(user_id: number): Promise<ShortTopic[]>
@@ -16,7 +16,7 @@ export interface UserRepositoryI {
     destroySession(session_id: string): void
     createUser(user: UserIncomingData): Promise<UserData>
     updateUser(updates: any, user_id: number): void
-    updateSessionData(updates: any): void
+    updateSessionData(session_id: string, updates: any): void
     getCommentsForUser(id: number): Promise<Comment[]>
     getTopicsForUser(id: number): Promise<ShortTopic[]>
 }
@@ -72,8 +72,9 @@ export class UserModel implements UserModelI {
 
     public async updateUserData
     (
+        session_id: string,
         newUser: UpdatedUserData,
-        prevUserData: UserData
+        prevUserData: UserData,
     ): Promise<void>
     {
         if (newUser.prevPassword != prevUserData.password) {
@@ -82,7 +83,7 @@ export class UserModel implements UserModelI {
         } else {
             let updates = this.findUpdates(newUser.user, prevUserData);
             this.userRepo.updateUser(updates, prevUserData.id);
-            this.userRepo.updateSessionData(updates);
+            this.userRepo.updateSessionData(session_id, updates);
         }
     }
 

@@ -51,7 +51,7 @@ export class UserController {
             prevPassword: req.body.get("prev_password"),
         };
         let prevUser = await this.authModel.verifySession(session_id);
-        this.userModel.updateUserData(updatedUser, prevUser);
+        this.userModel.updateUserData(session_id, updatedUser, prevUser);
     }
 
     @Delete("/user")
