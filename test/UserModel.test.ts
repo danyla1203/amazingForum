@@ -52,6 +52,7 @@ describe("test methods", () => {
         let expectedCountry = { country: "USA" };
         expect(model["findUpdates"](newData, prevData)).toStrictEqual(expectedCountry);
     });
+
     test("no changes", () => {
         let prevData = {
             id: 12,
@@ -66,6 +67,38 @@ describe("test methods", () => {
         let expected = {};
         expect(model["findUpdates"](newData, prevData)).toStrictEqual(expected);
     });
+
+    test("test with empty columns", () => {
+        let prevData = {
+            id: 12,
+            name: "John",
+            email: "fuck.school@blya",
+            country: "Ukraine"
+        };
+        let newData = {
+            id: 12,
+            name: "Joana",
+            email: "fuck.school@blya",
+            country: "",
+        };
+        let expected = { name: "Joana" };
+        expect(model["findUpdates"](newData, prevData)).toStrictEqual(expected);
+
+        prevData = {
+            id: 12,
+            name: "John",
+            email: "fuck.school@blya",
+            country: "Ukraine"
+        };
+        newData = {
+            id: 12,
+            name: "",
+            email: "",
+            country: "",
+        };
+        let expectedPrevData = {};
+        expect(model["findUpdates"](newData, prevData)).toStrictEqual(expectedPrevData);
+    })
 });
 
 describe("test verifyIncomingData", () => {
