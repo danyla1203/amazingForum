@@ -68,8 +68,8 @@ export class UserStore {
                 return response.json()
             })
             .then((user) => {
-                if (user.statusCode !== 200) {
-                    this.user = user.payload
+                if (user.statusCode === 200) {
+                    this.user = user.payload;
                 } else {
                     this.errors = user.statusText;
                 }
