@@ -1,5 +1,5 @@
 export type UserData = {
-    user_id: number
+    id: number
     nickname: string
     password: string
     email: string
@@ -15,6 +15,7 @@ export type UserIncomingData = {
     avatar_path?: string
 }
 
-export type UpdatedUserData = UserIncomingData & {
+export type UpdatedUserData = {
+    user: UserIncomingData
     prevPassword: string
 }
