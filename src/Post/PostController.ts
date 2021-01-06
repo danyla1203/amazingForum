@@ -26,23 +26,24 @@ export class PostController {
 
     @post("/topic/:post_id/add-comment")
     public async addComment(req: Request): Promise<void> {
-        let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let topic_id = req.params.get("post_id");
         let text = req.body.get("text");
 
         let comment = {
-            author_id: user_id,
+            author_id: id,
             topic_id: topic_id,
             text: text
         };
+        console.log(comment);
         this.postModel.createComment(comment);
     }
 
     @post("/topic/create")
     public async createTopic(req: Request): Promise<Topic> {
-        let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let topic = {
-            author_id: user_id,
+            author_id: id,
             thread_id: req.body.get("thread_id"),
             title: req.body.get("title"),
             text: req.body.get("text"),
@@ -52,7 +53,7 @@ export class PostController {
     @put("/topic/:topic_id")
     public async updateTopic(req: Request): Promise<void> {
         let topic_id = req.params.get("topic_id");
-        let { user_id } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let newTopic = {
             title: req.body.get("title"),
             text: req.body.get("text"),
