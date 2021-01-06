@@ -35,10 +35,9 @@ export class UserRepository extends Repository implements UserRepositoryI{
     }
     async updateUser(updates: UserIncomingData, user_id: number): Promise<void> {
         let setString = this.getSetPair(updates);
-        console.log(setString);
         try {
-            this.pg.query(
-                `update users set ${setString}  where id = ${user_id}`,)
+            let sql = `update users set ${setString} where id = ${user_id}`;
+            this.pg.query(sql);
         } catch (e) {
             throw new DatabaseError(e);
         }

@@ -61,6 +61,7 @@ export class Bootstrap {
             };
             res.end(JSON.stringify(response));
         } catch (e) {
+            console.log(e);
             res.statusCode = e.errorData.statusCode;
             res.end(JSON.stringify(e.errorData));
         }
