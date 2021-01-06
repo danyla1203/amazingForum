@@ -16,7 +16,7 @@ export default class Home extends React.Component{
                     <div id="user_container">
                         <img src={user.avatar_path} alt="Avatar"/>
                         <div id="user_info">
-                            <h3>{ user.name }</h3>
+                            <h3>{ user.nickname }</h3>
                             <h4>{ user.email }</h4>
                             <h4>{ user.country }</h4>
                             <div>
