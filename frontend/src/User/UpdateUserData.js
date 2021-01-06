@@ -1,6 +1,7 @@
 import React from "react";
 import {Redirect} from "react-router-dom";
 import { observer, inject } from "mobx-react";
+import countries from "../Registration/countryList";
 
 @inject("userStore")
 @observer
@@ -34,6 +35,8 @@ export default class UpdateUserData extends React.Component {
                     <form id="update_user_form">
                         <input type="text" name="name"/>
                         <input type="password" name="password"/>
+                        { countries }
+                        <input type="file" name="user_avatar"/>
                         <hr/>
                         <input type="password" name="prev_password"/>
                         <button onClick={this.changeData} type="button">Change data</button>
