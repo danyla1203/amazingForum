@@ -53,6 +53,9 @@ export class UserModel implements UserModelI {
             let newUserColumn = mappedNewUser.get(column);
             let prevUserColumn = mappedPrevUser.get(column);
 
+            if (newUserColumn.length < 2) {
+                continue
+            }
             if (newUserColumn != prevUserColumn) {
                 updatedColumns[column] = newUserColumn;
             }
