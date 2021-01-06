@@ -14,6 +14,7 @@ export class PostBody {
                 if (fileName.length < 2) {
                     req.body = body;
                     resolve("");
+                    return;
                 }
                 let saveTo = path.join("./uploaded_img", path.basename(fileName));
                 fs.writeFile(saveTo, "", (err)=> {
