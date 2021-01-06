@@ -42,8 +42,8 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
-    async updateSessionData(updates: any) {
-
+    async updateSessionData(session_id: string, updates: any) {
+        this.redisConn.hmset(`user:${session_id}`, updates);
     }
 
     async getCommentsForUser(user_id: number): Promise<Comment[]> {
