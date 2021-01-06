@@ -40,22 +40,25 @@ export class UserController {
     @put("/user")
     async updateUser(req: Request) {
         let session_id = req.cookies.get("s_id");
-        let newUser: UpdatedUserData = {
+        let user: UserIncomingData = {
             nickname: req.body.get("name"),
             password: req.body.get("password"),
             country: req.body.get("country"),
             avatar_path: req.body.get("user_avatar").fileName,
+        };
+        let updatedUser = {
+            user: user,
             prevPassword: req.body.get("prev_password"),
         };
-        let user = await this.authModel.verifySession(session_id);
-        this.userModel.updateUserData(newUser, user);
+        let prevUser = await this.authModel.verifySession(session_id);
+        this.userModel.updateUserData(updatedUser, prevUser);
     }
 
     @Delete("/user")
     async deleteUser(req: Request): Promise<void> {
         let session_id = req.cookies.get("s_id");
         let user = await this.authModel.verifySession(session_id);
-        this.userModel.deleteUser(session_id, user.user_id);
+        this.userModel.deleteUser(session_id, user.id);
     }
 
     @get("/user/:user_id/comments")
