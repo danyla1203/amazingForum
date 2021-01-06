@@ -2,7 +2,7 @@ import {AuthModelI} from "../Authentication/AuthenticationModel";
 import {Request, Response} from "../lib/ExtendContext";
 import {Delete, get, post, put} from "../lib/httpMethodDecorators";
 import {UserModel, UserModelI} from "./UserModel";
-import {UpdatedUserData, UserData, UserIncomingData} from "./types";
+import {UserData, UserIncomingData} from "./types";
 import {Comment} from "../Post/types";
 import {ShortTopic} from "../Thread/types";
 
@@ -38,7 +38,7 @@ export class UserController {
     }
 
     @put("/user")
-    async updateUser(req: Request) {
+    async updateUser(req: Request): Promise<UserData> {
         let session_id = req.cookies.get("s_id");
         let user: UserIncomingData = {
             nickname: req.body.get("name"),
@@ -51,7 +51,8 @@ export class UserController {
             prevPassword: req.body.get("prev_password"),
         };
         let prevUser = await this.authModel.verifySession(session_id);
-        this.userModel.updateUserData(session_id, updatedUser, prevUser);
+        let newUser = this.userModel.updateUserData(session_id, updatedUser, prevUser);
+        return newUser;
     }
 
     @Delete("/user")

@@ -5,7 +5,7 @@ import {ShortTopic} from "../Thread/types";
 
 export interface UserModelI {
     insertUser(user: UserIncomingData): Promise<UserData>
-    updateUserData(session_id: string, newUser: UpdatedUserData, prevUserData: UserData): any
+    updateUserData(session_id: string, newUser: UpdatedUserData, prevUserData: UserData): Promise<UserData>
     deleteUser(s_id: string, user_id: number): void
     getCommentsForUser(user_id: number): Promise<Comment[]>
     getTopicsForUser(user_id: number): Promise<ShortTopic[]>
@@ -16,7 +16,7 @@ export interface UserRepositoryI {
     destroySession(session_id: string): void
     createUser(user: UserIncomingData): Promise<UserData>
     updateUser(updates: any, user_id: number): void
-    updateSessionData(session_id: string, updates: any): void
+    updateSessionData(session_id: string, updates: any): Promise<UserData>
     getCommentsForUser(id: number): Promise<Comment[]>
     getTopicsForUser(id: number): Promise<ShortTopic[]>
 }
@@ -75,7 +75,7 @@ export class UserModel implements UserModelI {
         session_id: string,
         newUser: UpdatedUserData,
         prevUserData: UserData,
-    ): Promise<void>
+    ): Promise<UserData>
     {
         if (newUser.prevPassword != prevUserData.password) {
             //if provided incorrect last password
@@ -83,7 +83,8 @@ export class UserModel implements UserModelI {
         } else {
             let updates = this.findUpdates(newUser.user, prevUserData);
             this.userRepo.updateUser(updates, prevUserData.id);
-            this.userRepo.updateSessionData(session_id, updates);
+            let updatedUserData = this.userRepo.updateSessionData(session_id, updates);
+            return updatedUserData;
         }
     }
 
