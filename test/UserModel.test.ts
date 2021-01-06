@@ -11,11 +11,13 @@ describe("test methods", () => {
             id: 12,
             name: "John",
             email: "fuck.school@blya",
+            country: "Ukraine"
         };
         let newData = {
             id: 12,
             name: "Joana",
             email: "fuck!.school@blya",
+            country: "Ukraine",
         };
         let expected = { name: "Joana", email: "fuck!.school@blya" };
         expect(model["findUpdates"](newData, prevData)).toStrictEqual(expected);
@@ -24,15 +26,31 @@ describe("test methods", () => {
             id: 12,
             name: "John",
             email: "fuck.school@blya",
+            country: "Ukraine",
         };
         newData = {
             id: 12,
             name: "Joana",
             email: "fuck.school@blya",
+            country: "Ukraine",
         };
         let expectedWithoutEmail = { name: "Joana" };
         expect(model["findUpdates"](newData, prevData)).toStrictEqual(expectedWithoutEmail);
 
+        prevData = {
+            id: 12,
+            name: "Joana",
+            email: "fuck.school@blya",
+            country: "Ukraine",
+        };
+        newData = {
+            id: 12,
+            name: "Joana",
+            email: "fuck.school@blya",
+            country: "USA",
+        };
+        let expectedCountry = { country: "USA" };
+        expect(model["findUpdates"](newData, prevData)).toStrictEqual(expectedCountry);
     });
     test("no changes", () => {
         let prevData = {
@@ -47,7 +65,7 @@ describe("test methods", () => {
         };
         let expected = {};
         expect(model["findUpdates"](newData, prevData)).toStrictEqual(expected);
-    })
+    });
 });
 
 describe("test verifyIncomingData", () => {
