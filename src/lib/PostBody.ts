@@ -7,14 +7,19 @@ export class PostBody {
     private async handleMultipart(req: Request) {
         let busboy = new Busboy({ headers: req.headers });
         let body = new Map();
+
         return new Promise((resolve) => {
             busboy.on('file', function(fieldName, file, fileName) {
+                body.set(fieldName, { fileName: fileName });
+                if (fileName.length < 2) {
+                    req.body = body;
+                    resolve("");
+                }
                 let saveTo = path.join("./uploaded_img", path.basename(fileName));
                 fs.writeFile(saveTo, "", (err)=> {
                     if (err) throw  err;
                     file.pipe(fs.createWriteStream(saveTo));
                 });
-                body.set(fieldName, { fileName: fileName });
             });
             busboy.on('field', function(fieldName, val) {
                 body.set(fieldName, val);
