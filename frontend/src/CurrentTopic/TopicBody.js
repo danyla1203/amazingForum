@@ -1,5 +1,6 @@
 import React from "react"
 import { observer, inject } from "mobx-react";
+import "./TopicBody.sass"
 
 @inject("currentTopicStore")
 @observer
@@ -14,9 +15,16 @@ export default class TopicBody extends React.Component{
         if (topic) {
             return (
                 <div id="post_body">
-                    <h2>{ topic.title }</h2>
-                    <p>{ topic.text }</p>
-                    <h4>{ topic.date }</h4>
+                    <div id="author_data">
+                        <h3>{ topic.author_name }</h3>
+                        <img src={topic.avatar_path} alt=""/>
+                        <h4>{ topic.email }</h4>
+                    </div>
+                    <div id="post">
+                        <h2>{ topic.title }</h2>
+                        <p>{ topic.text }</p>
+                        <h4>{ topic.date }</h4>
+                    </div>
                 </div>
             )
         } else {
