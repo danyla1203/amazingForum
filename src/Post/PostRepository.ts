@@ -40,7 +40,7 @@ export class PostRepository extends Repository implements PostRepoI{
     async getTopicData(post_id: number): Promise<Topic> {
         try {
             let sql =
-                `select topic_id, author_id, title, text, date, nickname, email, avatar_path from topics 
+                `select topic_id, author_id, title, text, date, nickname as author_name, email, avatar_path from topics 
                  join users
                  on users.id = topics.author_id
                  where topic_id = $1`;
