@@ -2,6 +2,7 @@ import React from "react"
 import {Comment} from "./Comment";
 import {CommentForm} from "./CommentForm";
 import { observer, inject } from "mobx-react";
+import "./CommentForm.sass"
 
 @inject("currentTopicStore")
 @observer
