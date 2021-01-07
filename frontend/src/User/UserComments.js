@@ -1,6 +1,6 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
-import {Comment} from "../CurrentTopic/Comment";
+import {Comment} from "../CurrentTopic/comment/Comment";
 
 @inject("userStore")
 @observer

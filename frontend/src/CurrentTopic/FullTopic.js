@@ -1,6 +1,6 @@
 import React from "react";
 import TopicBody from "./TopicBody";
-import CommentsContainer from "./CommentsContainer";
+import CommentsContainer from "./comment/CommentsContainer";
 
 export function FullTopic(props) {
     return (
