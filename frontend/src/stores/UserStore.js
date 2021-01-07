@@ -12,9 +12,7 @@ export class UserStore {
                 return response.json();
             })
             .then((user) => {
-                if(user.statusCode !== 200) {
-                    this.errors = user.statusText;
-                } else {
+                if(user.statusCode == 200) {
                     this.user = user.payload;
                 }
             })
