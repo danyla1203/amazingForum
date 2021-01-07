@@ -8,7 +8,7 @@ export function CommentForm(props) {
         let formData = new FormData(form);
         props.submitComment(formData);
     };
-    const toggleComentForm = () => {
+    const toggleCommentForm = () => {
        toogle(!isOpen);
     };
 
@@ -17,12 +17,12 @@ export function CommentForm(props) {
             <form id="comment_form">
                 <textarea name="text" cols="30" rows="10"></textarea>
                 <button type="button" onClick={submitComment}>Comment</button>
-                <button onClick={toggleComentForm}>Close</button>
+                <button onClick={toggleCommentForm}>Close</button>
             </form>
         )
     } else {
         return (
-            <button onClick={toggleComentForm}>Write comment</button>
+            <button onClick={toggleCommentForm}>Write comment</button>
         )
     }
 }
