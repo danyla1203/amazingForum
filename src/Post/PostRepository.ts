@@ -19,9 +19,9 @@ export class PostRepository extends Repository implements PostRepoI{
 
     insertComment(comment: IncomingComment): void {
         try {
-            let fieldAndValues = this.getFieldValuesString(comment);
-            let sql = `insert into comments($1) values($2)`;
-            this.pg.query(sql, fieldAndValues);
+            let [field, values] = this.getFieldValuesString(comment);
+            let sql = `insert into comments(${field}) values(${values})`;
+            this.pg.query(sql);
         } catch (e) {
             throw new DatabaseError(e);
         }
@@ -39,7 +39,11 @@ export class PostRepository extends Repository implements PostRepoI{
 
     async getTopicData(post_id: number): Promise<Topic> {
         try {
-            let sql = "select * from topics where topic_id = $1";
+            let sql =
+                `select topic_id, author_id, title, text, date, nickname, email, avatar_path from topics 
+                 join users
+                 on users.id = topics.author_id
+                 where topic_id = $1`;
             let post = await this.pg.query<Topic>(sql, [post_id]);
             return post.rows[0];
         } catch (e) {
