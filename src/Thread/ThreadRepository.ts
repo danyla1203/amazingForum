@@ -15,7 +15,7 @@ export class ThreadRepository extends Repository implements ThreadRepositoryI {
         let threadsKeys = await this.redisConn.keys("threads:*");
         let threads = [];
         for (let i = 0; i < threadsKeys.length; i++) {
-            let thread = await this.redisConn.hgetall<Thread>(threadsKeys[i]);
+            let thread = await this.redisConn.hgetall(threadsKeys[i]);
             threads.push(thread);
         }
         return threads;
