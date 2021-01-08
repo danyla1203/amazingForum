@@ -1,12 +1,11 @@
 import {Pool} from "pg";
-import {Redis} from "ioredis";
-import {RedisClient} from "redis";
+import { ComfortRedis } from "nice-redis";
 
 export class Repository {
     pg: Pool;
-    redisConn: RedisClient;
+    redisConn: ComfortRedis;
 
-    constructor(redisConn: RedisClient, pgConn: Pool) {
+    constructor(redisConn: ComfortRedis, pgConn: Pool) {
         this.redisConn = redisConn;
         this.pg = pgConn;
     }

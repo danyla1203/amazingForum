@@ -1,6 +1,7 @@
-import * as redis from "promise-redis";
 import * as dotenv from "dotenv";
+import * as redis from "redis"
 import {Pool} from "pg";
+import { ComfortRedis } from "nice-redis";
 
 import {Bootstrap} from "./bootstrap";
 import {AuthenticationController} from "./Authentication/AuthenticationController";
@@ -19,10 +20,11 @@ import {PostController} from "./Post/PostController";
 dotenv.config();
 
 //create connection to data storage
-const redisClient = redis().createClient();
+const redisClient = redis.createClient();
 redisClient.on("error", (error: any) => {
     console.error(error);
 });
+const comfortRedis = new ComfortRedis(redisClient);
 const dbConnection = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -38,10 +40,10 @@ dbConnection.connect((err) => {
 });
 
 //creating repositories
-const authRepo = new AuthenticationRepository(redisClient, dbConnection);
-const userRepo  = new UserRepository(redisClient, dbConnection);
-const threadRepo  = new ThreadRepository(redisClient, dbConnection);
-const postRepo = new PostRepository(redisClient, dbConnection);
+const authRepo = new AuthenticationRepository(comfortRedis, dbConnection);
+const userRepo  = new UserRepository(comfortRedis, dbConnection);
+const threadRepo  = new ThreadRepository(comfortRedis, dbConnection);
+const postRepo = new PostRepository(comfortRedis, dbConnection);
 
 //creating models
 const authModel = new AuthenticationModel(authRepo);
