@@ -8,9 +8,7 @@ import "./Topics.sass"
 export default class TopicContainer extends React.Component {
     componentDidMount() {
         let { thread_id } = this.props.match.params;
-        if (this.props.topicStore.topics.length < 1) {
-            this.props.topicStore.loadTopicsPreview(thread_id);
-        }
+        this.props.topicStore.loadTopicsPreview(thread_id);
     }
 
     renderTopics(topics) {
