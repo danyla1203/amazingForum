@@ -2,7 +2,7 @@ import {get, post, put} from "../lib/httpMethodDecorators";
 import {Request} from "../lib/ExtendContext";
 import {PostModelI} from "./PostModel";
 import {AuthModelI} from "../Authentication/AuthenticationModel";
-import {Topic} from "./types";
+import {IncomingComment, Topic} from "./types";
 
 export class PostController {
     postModel: PostModelI;
@@ -27,10 +27,10 @@ export class PostController {
     @post("/topic/:post_id/add-comment")
     public async addComment(req: Request): Promise<void> {
         let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
-        let topic_id = req.params.get("post_id");
+        let topic_id = parseInt(req.params.get("post_id"));
         let text = req.body.get("text");
 
-        let comment = {
+        let comment: IncomingComment = {
             author_id: id,
             topic_id: topic_id,
             text: text
@@ -59,6 +59,6 @@ export class PostController {
             text: req.body.get("text"),
             thread_id: req.body.get("thread_id"),
         };
-        this.postModel.updateTopic(topic_id, user_id, newTopic);
+        this.postModel.updateTopic(topic_id, id, newTopic);
     }
 }
