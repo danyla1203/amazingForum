@@ -16,14 +16,14 @@ export class AuthenticationRepository extends Repository implements AuthReposito
 
     createSession(session_id: string, data: UserData) {
         try {
-            return this.redisConn.hmset(`user:${session_id}`, data);
+            return this.redisConn.hash.mset(`user:${session_id}`, data);
         } catch (e) {
             throw new DatabaseError(e);
         }
     }
     async getUserBySession(session_id: string): Promise<UserData> {
         try {
-            return this.redisConn.hgetall(`user:${session_id}`);
+            return this.redisConn.hash.getall(`user:${session_id}`);
         } catch (e) {
             throw new DatabaseError(e);
         }

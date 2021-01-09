@@ -7,7 +7,7 @@ export class ThreadRepository extends Repository implements ThreadRepositoryI {
 
     private setThreadsToCache(threads: Thread[]) {
         threads.map((thread: any) => {
-            this.redisConn.hmset(`threads:${thread.thread_id}`, thread);
+            this.redisConn.hash.mset(`threads:${thread.thread_id}`, thread);
         });
     }
 
@@ -15,7 +15,7 @@ export class ThreadRepository extends Repository implements ThreadRepositoryI {
         let threadsKeys = await this.redisConn.keys("threads:*");
         let threads = [];
         for (let i = 0; i < threadsKeys.length; i++) {
-            let thread = await this.redisConn.hgetall(threadsKeys[i]);
+            let thread = await this.redisConn.hash.getall(threadsKeys[i]);
             threads.push(thread);
         }
         return threads;
