@@ -16,8 +16,10 @@ export class CurrentTopicStore {
     }
 
     addComment(topic_id, commentFormData) {
+        let lastComment = this.comments[this.comments.length - 1];
+
         let commentForInsert = {
-            id: this.comments[this.comments.length - 1].id,
+            id: lastComment ? lastComment.id : 0,
             text: commentFormData.get("text"),
             date: "2003.12.03"
         };
