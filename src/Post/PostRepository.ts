@@ -6,11 +6,14 @@ import {Comment, IncomingComment, IncomingTopic, Topic} from "./types";
 export class PostRepository extends Repository implements PostRepoI{
     async getCommentsForTopic(post_id: number): Promise<Comment[]> {
         try {
-            let sql = "select * from comments" +
-                " join topics" +
-                " on topics.topic_id = comments.topic_id" +
-                " where comments.topic_id = $1";
-            let comments = await this.pg.query(sql, [post_id]);
+            //TODO: repair sql
+            let sql =
+                `select id, comments.text, comments.date from comments
+                 join topics
+                 on comments.topic_id = topics.topic_id
+                 where comments.topic_id = ${post_id}`;
+            console.log(sql);
+            let comments = await this.pg.query(sql);
             return comments.rows;
         } catch (e) {
             throw new DatabaseError(e);
