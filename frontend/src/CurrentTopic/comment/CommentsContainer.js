@@ -22,6 +22,7 @@ export default class CommentsContainer extends React.Component {
         return comments.map((comment) => {
             return (
                 <Comment
+                    key={comment.id}
                     text={comment.text}
                     date={comment.date}
                     author_name={comment.author_name}
