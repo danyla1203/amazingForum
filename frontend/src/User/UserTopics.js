@@ -14,7 +14,8 @@ export default class UserTopics extends React.Component {
         return topics.map((topic) => {
             return (
                 <ShortTopic
-                    topic_id={topic.id}
+                    key={topic.topic_id}
+                    topic_id={topic.topic_id}
                     title={topic.title}
                 />
             )
