@@ -44,7 +44,7 @@ export class PostController {
         let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let topic = {
             author_id: id,
-            thread_id: req.body.get("thread_id"),
+            thread_id: parseInt(req.body.get("thread_id")),
             title: req.body.get("title"),
             text: req.body.get("text"),
         };
