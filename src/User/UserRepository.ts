@@ -43,8 +43,8 @@ export class UserRepository extends Repository implements UserRepositoryI{
         }
     }
     async updateSessionData(session_id: string, updates: any): Promise<UserData> {
-        this.redisConn.hmset(`user:${session_id}`, updates);
-        let updatedUserData = this.redisConn.hgetall(`user:${session_id}`);
+        this.redisConn.hash.mset(`user:${session_id}`, updates);
+        let updatedUserData = this.redisConn.hash.getall(`user:${session_id}`);
         return updatedUserData
     }
 
