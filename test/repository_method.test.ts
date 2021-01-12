@@ -1,8 +1,10 @@
 import {Repository} from "../src/lib/Repository";
 import {Pool} from "pg";
 import * as redis from "redis-mock"
+import {ComfortRedis} from "nice-redis";
 
-const repo = new Repository(redis.createClient(), new Pool());
+
+const repo = new Repository(new ComfortRedis(redis.createClient()), new Pool());
 describe("test get values and column string", () => {
     test("test get values and column string", () => {
         let obj = {

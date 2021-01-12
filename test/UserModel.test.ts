@@ -2,8 +2,9 @@ import {UserModel} from "../src/User/UserModel";
 import {UserRepository} from "../src/User/UserRepository";
 import * as redis from "redis-mock"
 import {Pool} from "pg";
+import {ComfortRedis} from "nice-redis";
 
-const model = new UserModel(new UserRepository(redis.createClient(), new Pool()));
+const model = new UserModel(new UserRepository(new ComfortRedis(redis.createClient()), new Pool()));
 
 describe("test methods", () => {
     test("test find updates", () => {
