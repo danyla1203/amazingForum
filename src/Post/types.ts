@@ -6,12 +6,14 @@ export type Comment = {
     date: string
 }
 export type IncomingComment = {
+    [index:string]: any
     author_id?: number
     topic_id?: number
     text?: string
 }
 
 export type IncomingTopic = {
+    [index:string]: any
     thread_id?: number
     title?: string
     text?: string
