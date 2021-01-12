@@ -27,7 +27,11 @@ export class PostModel implements PostModelI {
         let necessaryColumns = ["author_id", "topic_id",  "text"];
         for (let i = 0; i < necessaryColumns.length; i++) {
             if (necessaryColumns[i] in comment) {
-                if (comment[necessaryColumns[i]].length < 2) {
+                let commentValue = comment[necessaryColumns[i]];
+                if (!commentValue) {
+                    return false;
+                }
+                if (commentValue.length < 2 && typeof commentValue == "string") {
                     return false;
                 }
             } else {
@@ -40,7 +44,11 @@ export class PostModel implements PostModelI {
         let necessaryColumns = ["author_id", "thread_id", "title",  "text"];
         for (let i = 0; i < necessaryColumns.length; i++) {
             if (necessaryColumns[i] in topic) {
-                if (topic[necessaryColumns[i]].length < 2) {
+                let topicValue = topic[necessaryColumns[i]];
+                if (!topicValue) {
+                    return false;
+                }
+                if (topicValue.length < 2) {
                     return false;
                 }
             } else {
