@@ -61,7 +61,7 @@ export class UserRepository extends Repository implements UserRepositoryI{
         console.log(user_id);
         try {
             let sql =
-                `select from topics
+                `select * from topics
                 where author_id = ${user_id}`;
             let result = await this.pg.query(sql);
             return result.rows
