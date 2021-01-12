@@ -29,7 +29,8 @@
     },
     "scripts": {
         "dev": "webpack-dev-server --open",
-        "build": "webpack"
+        "build": "webpack",
+        "build:dev": "webpack --watch"
     },
     "babel": {
         "presets": [
