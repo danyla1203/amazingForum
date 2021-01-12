@@ -8,9 +8,11 @@ export class PostRepository extends Repository implements PostRepoI{
         try {
             //TODO: repair sql
             let sql =
-                `select id, comments.text, comments.date from comments
+                `select comments.id, comments.text, users.nickname as author_name, users.avatar_path as user_avatar, comments.date from comments
                  join topics
                  on comments.topic_id = topics.topic_id
+                 join users
+                 on users.id = comments.author_id
                  where comments.topic_id = ${post_id}`;
             console.log(sql);
             let comments = await this.pg.query(sql);
@@ -31,9 +33,9 @@ export class PostRepository extends Repository implements PostRepoI{
     }
     async createTopic(topic: IncomingTopic): Promise<Topic> {
         try {
-            let fieldAndValues = this.getFieldValuesString(topic);
-            let sql = "insert into topics($1) values($2) returning *";
-            let result = await this.pg.query<Topic>(sql, fieldAndValues);
+            let [field, values] = this.getFieldValuesString(topic);
+            let sql = `insert into topics(${field}) values(${values}) returning *`;
+            let result = await this.pg.query<Topic>(sql);
             return result.rows[0];
         } catch (e) {
             throw new DatabaseError(e);
