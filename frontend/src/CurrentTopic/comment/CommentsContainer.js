@@ -43,7 +43,9 @@ export default class CommentsContainer extends React.Component {
                 <CommentForm
                     submitComment={this.submitComment}
                 />
-                { comments }
+                <div id="comments_container">
+                    { comments }
+                </div>
             </div>
         )
     }
