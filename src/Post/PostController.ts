@@ -1,4 +1,4 @@
-import {get, post, put} from "../lib/httpMethodDecorators";
+import {Delete, get, post, put} from "../lib/httpMethodDecorators";
 import {Request} from "../lib/ExtendContext";
 import {PostModelI} from "./PostModel";
 import {AuthModelI} from "../Authentication/AuthenticationModel";
@@ -37,6 +37,12 @@ export class PostController {
         };
         console.log(comment);
         this.postModel.createComment(comment);
+    }
+    @Delete("/delete/comment/:comment_id")
+    public async deleteComment(req: Request) {
+        let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        let comment_id = parseInt(req.params.get("comment_id"));
+        this.postModel.deleteComment(comment_id, id);
     }
 
     @post("/topic/create")

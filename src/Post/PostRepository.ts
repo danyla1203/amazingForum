@@ -65,4 +65,23 @@ export class PostRepository extends Repository implements PostRepoI{
             throw new DatabaseError(e);
         }
     }
+
+    async findComment(comment_id: number): Promise<Comment> {
+        try {
+            let sql = `select * from comments where id = ${comment_id}`;
+            let result =  await this.pg.query(sql);
+            return result.rows[0];
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
+
+    async deleteComment(comment_id: number) {
+        try {
+            let sql = `delete from comments where id = ${comment_id}`;
+            this.pg.query(sql);
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
 }

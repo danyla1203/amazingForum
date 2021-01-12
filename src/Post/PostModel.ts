@@ -7,6 +7,7 @@ export interface PostModelI {
     createComment(comment: IncomingComment): void
     createTopic(topic: IncomingTopic): Promise<Topic>
     updateTopic(topic_id: number, newTopicData: IncomingTopic): Promise<void>
+    deleteComment(comment_id: number, user_id: number): void
 }
 
 export interface PostRepoI {
@@ -15,6 +16,8 @@ export interface PostRepoI {
     insertComment(comment: IncomingComment): void
     createTopic(topic: IncomingTopic): Promise<Topic>
     updateTopic(topic_id: number, newData: IncomingTopic): void
+    findComment(comment_id: number): Promise<Comment>
+    deleteComment(comment_id: number): void
 }
 
 export class PostModel implements PostModelI {
@@ -111,6 +114,15 @@ export class PostModel implements PostModelI {
             } else {
                 throw new BadTopicData();
             }
+        } else {
+            throw new BadAuthor();
+        }
+    }
+
+    public async deleteComment(comment_id: number, user_id: number) {
+        const comment = await this.repo.findComment(comment_id);
+        if (comment.author_id == user_id) {
+            this.repo.deleteComment(comment_id);
         } else {
             throw new BadAuthor();
         }
