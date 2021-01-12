@@ -14,7 +14,8 @@ export type IncomingComment = {
 
 export type IncomingTopic = {
     [index:string]: any
-    thread_id?: number
+    thread_id?: number,
+    author_id?: number,
     title?: string
     text?: string
 }
