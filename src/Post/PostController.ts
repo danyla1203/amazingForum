@@ -52,13 +52,14 @@ export class PostController {
     }
     @put("/topic/:topic_id")
     public async updateTopic(req: Request): Promise<void> {
-        let topic_id = req.params.get("topic_id");
+        let topic_id = parseInt(req.params.get("topic_id"));
         let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
         let newTopic = {
+            author_id: id,
             title: req.body.get("title"),
             text: req.body.get("text"),
             thread_id: req.body.get("thread_id"),
         };
-        this.postModel.updateTopic(topic_id, id, newTopic);
+        this.postModel.updateTopic(topic_id, newTopic);
     }
 }
