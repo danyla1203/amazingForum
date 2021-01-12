@@ -6,7 +6,7 @@
     "@types/redis-mock": "^0.17.0",
     "busboy": "^0.2.14",
     "dotenv": "^8.2.0",
-    "nice-redis": "1.2.2",
+    "nice-redis": "1.2.4",
     "pg": "^8.4.0"
   },
   "devDependencies": {
