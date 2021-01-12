@@ -6,7 +6,7 @@ export interface PostModelI {
     getComments(post_id: number): Promise<Comment[]>
     createComment(comment: IncomingComment): void
     createTopic(topic: IncomingTopic): Promise<Topic>
-    updateTopic(topic_id: number, updater_id: number, newTopicData: IncomingTopic): Promise<void>
+    updateTopic(topic_id: number, newTopicData: IncomingTopic): Promise<void>
 }
 
 export interface PostRepoI {
@@ -57,11 +57,21 @@ export class PostModel implements PostModelI {
         }
         return true
     }
-    private verifyDataForTopicUpdate(topic: IncomingTopic): boolean {
-        return true;
-    }
-    private findUpdates(oldTopic: Topic, newTopic: IncomingTopic): IncomingTopic  {
-        return {}
+    private findUpdates
+    (
+        newTopic: {[index:string]: any},
+        oldTopic: {[index:string]: any}
+    ): Object {
+        let updatedColumns: { [index:string]: string } = {};
+        for(let column in newTopic) {
+            if (newTopic[column].length < 2) {
+                continue
+            }
+            if (newTopic[column] != oldTopic[column]) {
+                updatedColumns[column] = newTopic[column];
+            }
+        }
+        return updatedColumns;
     }
 
     public async getTopic(post_id: number): Promise<Topic> {
@@ -90,12 +100,11 @@ export class PostModel implements PostModelI {
     public async updateTopic
     (
         topic_id: number,
-        updater_id: number,
         newTopicData: IncomingTopic
     ): Promise<void> {
         let oldTopic = await this.repo.getTopicData(topic_id);
-        if (oldTopic.author_id == updater_id) {
-            let isValid = this.verifyDataForTopicUpdate(oldTopic);
+        if (oldTopic.author_id == newTopicData.author_id) {
+            let isValid = this.verifyTopicData(newTopicData);
             if(isValid) {
                 let updatedFields = this.findUpdates(oldTopic, newTopicData);
                 this.repo.updateTopic(oldTopic.topic_id, updatedFields);
