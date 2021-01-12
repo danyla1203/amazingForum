@@ -46,8 +46,8 @@ export class UserModel implements UserModelI {
     }
     private findUpdates
     (
-        newUser: {[index:string]: string},
-        prevUser: {[index:string]: string}
+        newUser: {[index:string]: any},
+        prevUser: {[index:string]: any}
     ): Object {
         let updatedColumns: { [index:string]: string } = {};
         for(let column in newUser) {
