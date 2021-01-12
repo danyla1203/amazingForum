@@ -59,8 +59,8 @@ export class PostRepository extends Repository implements PostRepoI{
     async updateTopic(topic_id: number, newData: IncomingTopic): Promise<void> {
         try {
             let setPairs = this.getSetPair(newData);
-            let sql = "update topics set $1 where topic_id = $2";
-            await this.pg.query(sql, [setPairs, topic_id]);
+            let sql = `update topics set ${setPairs} where topic_id = ${topic_id}`;
+            await this.pg.query(sql);
         } catch (e) {
             throw new DatabaseError(e);
         }
