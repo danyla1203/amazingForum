@@ -84,10 +84,21 @@ export class PostRepository extends Repository implements PostRepoI{
             throw new DatabaseError(e);
         }
     }
+
     async updateComment(comment_id: number, newData: UpdatedCommentData) {
         try {
             const setPairs = this.getSetPair(newData);
             let sql = `update comments set ${setPairs} where comment_id = ${comment_id}`;
+            this.pg.query(sql);
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
+
+    async saveToDraft(draft: IncomingTopic) {
+        try {
+            let [ fields, values ] = this.getFieldValuesString(draft);
+            let sql = `insert into topic_drafts(${fields}) values(${values})`;
             this.pg.query(sql);
         } catch (e) {
             throw new DatabaseError(e);

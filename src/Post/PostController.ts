@@ -2,7 +2,7 @@ import {Delete, get, post, put} from "../lib/httpMethodDecorators";
 import {Request} from "../lib/ExtendContext";
 import {PostModelI} from "./PostModel";
 import {AuthModelI} from "../Authentication/AuthenticationModel";
-import {IncomingComment, Topic} from "./types";
+import {IncomingComment, IncomingTopic, Topic} from "./types";
 
 export class PostController {
     postModel: PostModelI;
@@ -78,4 +78,15 @@ export class PostController {
         this.postModel.updateComment(comment_id, id, newComment);
     }
 
+    @post("/save/to-draft")
+    public async saveTopicToDraft(req: Request) {
+        const { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        const draftData: IncomingTopic = {
+            author_id: id,
+            thread_id: parseInt(req.body.get("thread_id")),
+            text: req.body.get("text"),
+            title: req.body.get("title")
+        };
+        this.postModel.saveToDraft(draftData);
+    }
 }

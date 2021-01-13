@@ -9,6 +9,7 @@ export interface PostModelI {
     updateTopic(topic_id: number, newTopicData: IncomingTopic): Promise<void>
     deleteComment(comment_id: number, user_id: number): void
     updateComment(comment_id: number, updater_id: number, newComment: UpdatedCommentData): Promise<void>
+    saveToDraft(draft: IncomingTopic): void
 }
 
 export interface PostRepoI {
@@ -20,6 +21,7 @@ export interface PostRepoI {
     findComment(comment_id: number): Promise<Comment>
     deleteComment(comment_id: number): void
     updateComment(comment_id: number, updates: UpdatedCommentData): void
+    saveToDraft(draft: IncomingTopic): void
 }
 
 export class PostModel implements PostModelI {
@@ -135,6 +137,14 @@ export class PostModel implements PostModelI {
         if (oldComment.author_id == updater_id) {
             let updates = this.findUpdates(oldComment, newComment);
             this.repo.updateComment(comment_id, updates);
+        }
+    }
+    public async saveToDraft(draft: IncomingTopic) {
+        const isDraftValid = this.verifyTopicData(draft);
+        if (isDraftValid) {
+            this.repo.saveToDraft(draft);
+        } else {
+            throw new BadTopicData();
         }
     }
 }
