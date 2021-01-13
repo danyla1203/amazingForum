@@ -16,11 +16,16 @@ export class  CreateTopic extends React.Component {
     }
     render() {
         let selectTag = this.renderSelectTag(this.props.threadStore.threads);
+
+        const defaultText = this.props.text ? this.props.text : "";
+        const defaultTitle = this.props.title ? this.props.title : "";
+        console.log(defaultTitle, defaultText);
+
         return (
             <div id="creater">
                 <form id="createTopic_form">
-                    <input type="text" name="title"/>
-                    <textarea name="text" cols="30" rows="10"></textarea>
+                    <input type="text" name="title" defaultValue={defaultTitle}/>
+                    <textarea name="text" cols="30" rows="10" defaultValue={defaultText}></textarea>
                     { selectTag }
                     <button onClick={this.props.save} type="button">Create</button>
                 </form>

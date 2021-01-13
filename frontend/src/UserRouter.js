@@ -17,6 +17,7 @@ import UpdateUserData from "./User/UpdateUserData";
 import Logout from "./Logout/Logout";
 import {DeleteTopic} from "./Topics/DeleteTopic";
 import {NewTopic} from "./Topics/NewTopic";
+import {UpdateTopic} from "./Topics/UpdateTopic";
 
 export class UserRouter extends React.Component {
     render() {
@@ -70,7 +71,7 @@ export class UserRouter extends React.Component {
                     />
                     <Route
                         exact path="/topic/update/:topic_id"
-                        component={CreateTopic}
+                        component={UpdateTopic}
                     />
                 </Router>
             </div>

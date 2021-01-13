@@ -38,4 +38,7 @@ export class TopicsStore {
                 
             })
     }
+    updateTopic(topic_id, topic_data) {
+
+    }
 }
