@@ -1,7 +1,7 @@
 import {PostRepoI} from "./PostModel";
 import {Repository} from "../lib/Repository";
 import {DatabaseError} from "../lib/Error";
-import {Comment, IncomingComment, IncomingTopic, Topic} from "./types";
+import {Comment, IncomingComment, IncomingTopic, Topic, UpdatedCommentData} from "./types";
 
 export class PostRepository extends Repository implements PostRepoI{
     async getCommentsForTopic(post_id: number): Promise<Comment[]> {
@@ -79,6 +79,15 @@ export class PostRepository extends Repository implements PostRepoI{
     async deleteComment(comment_id: number) {
         try {
             let sql = `delete from comments where id = ${comment_id}`;
+            this.pg.query(sql);
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
+    async updateComment(comment_id: number, newData: UpdatedCommentData) {
+        try {
+            const setPairs = this.getSetPair(newData);
+            let sql = `update comments set ${setPairs} where comment_id = ${comment_id}`;
             this.pg.query(sql);
         } catch (e) {
             throw new DatabaseError(e);

@@ -1,4 +1,4 @@
-import {Comment, IncomingComment, IncomingTopic, Topic} from "./types";
+import {Comment, IncomingComment, IncomingTopic, Topic, UpdatedCommentData} from "./types";
 import {BadAuthor, BadCommentData, BadTopicData} from "./errors";
 
 export interface PostModelI {
@@ -8,6 +8,7 @@ export interface PostModelI {
     createTopic(topic: IncomingTopic): Promise<Topic>
     updateTopic(topic_id: number, newTopicData: IncomingTopic): Promise<void>
     deleteComment(comment_id: number, user_id: number): void
+    updateComment(comment_id: number, updater_id: number, newComment: UpdatedCommentData): Promise<void>
 }
 
 export interface PostRepoI {
@@ -18,6 +19,7 @@ export interface PostRepoI {
     updateTopic(topic_id: number, newData: IncomingTopic): void
     findComment(comment_id: number): Promise<Comment>
     deleteComment(comment_id: number): void
+    updateComment(comment_id: number, updates: UpdatedCommentData): void
 }
 
 export class PostModel implements PostModelI {
@@ -125,6 +127,14 @@ export class PostModel implements PostModelI {
             this.repo.deleteComment(comment_id);
         } else {
             throw new BadAuthor();
+        }
+    }
+
+    public async updateComment(comment_id: number, updater_id: number, newComment: UpdatedCommentData) {
+        const oldComment = await this.repo.findComment(comment_id);
+        if (oldComment.author_id == updater_id) {
+            let updates = this.findUpdates(oldComment, newComment);
+            this.repo.updateComment(comment_id, updates);
         }
     }
 }

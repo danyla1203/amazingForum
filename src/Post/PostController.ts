@@ -68,4 +68,14 @@ export class PostController {
         };
         this.postModel.updateTopic(topic_id, newTopic);
     }
+    @put("/update/comment/:comment_id")
+    public async updateComment(req: Request) {
+        let comment_id = parseInt(req.params.get("comment_id"));
+        let { id } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        const newComment = {
+            text: req.body.get("text")
+        };
+        this.postModel.updateComment(comment_id, id, newComment);
+    }
+
 }

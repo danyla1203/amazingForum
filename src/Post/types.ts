@@ -28,3 +28,7 @@ export type Topic = {
     text: string
     date: string
 }
+
+export type UpdatedCommentData = {
+    text?: string
+}
