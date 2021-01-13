@@ -15,6 +15,7 @@ import Home from "./User/Home";
 import UserPage from "./User/UserPage";
 import UpdateUserData from "./User/UpdateUserData";
 import Logout from "./Logout/Logout";
+import {DeleteTopic} from "./Topics/DeleteTopic";
 
 export class UserRouter extends React.Component {
     render() {
@@ -61,6 +62,10 @@ export class UserRouter extends React.Component {
                     <Route
                         exact path="/logout"
                         component={Logout}
+                    />
+                    <Route
+                        exact path="/topic/delete/:topic_id"
+                        component={DeleteTopic}
                     />
                 </Router>
             </div>
