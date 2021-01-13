@@ -90,11 +90,10 @@ export class PostController {
         this.postModel.saveToDraft(draftData);
     }
 
-    @Delete("/delete/topic/:topic_id")
+    @Delete("/delete/topic/:topic_id/:providedPassword")
     public async deleteTopic(req: Request) {
         const topic_id = parseInt(req.params.get("topic_id"));
-        //TODO: decide, where receive provided password
-        const providedPassword = "null";
+        const providedPassword = req.params.get("providedPassword");
         const { id, password } = await this.authModel.verifySession(req.cookies.get("s_id"));
         this.postModel.deleteTopic(topic_id, id, password, providedPassword);
     }
