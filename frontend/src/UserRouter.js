@@ -10,12 +10,13 @@ import TopicContainer from "./Topics/TopicContainer";
 import { FullTopic } from "./CurrentTopic/FullTopic";
 import Login from "./Login/Login";
 import {Registration} from "./Registration/Registration";
-import {CreateTopic} from "./Topics/CreateTopic";
+import {CreateTopic} from "./TopicCreater/CreateTopic";
 import Home from "./User/Home";
 import UserPage from "./User/UserPage";
 import UpdateUserData from "./User/UpdateUserData";
 import Logout from "./Logout/Logout";
 import {DeleteTopic} from "./Topics/DeleteTopic";
+import {NewTopic} from "./Topics/NewTopic";
 
 export class UserRouter extends React.Component {
     render() {
@@ -45,7 +46,7 @@ export class UserRouter extends React.Component {
                     />
                     <Route
                         exact path="/new-topic"
-                        component={CreateTopic}
+                        component={NewTopic}
                     />
                     <Route
                         exact path="/home"
@@ -66,6 +67,10 @@ export class UserRouter extends React.Component {
                     <Route
                         exact path="/topic/delete/:topic_id"
                         component={DeleteTopic}
+                    />
+                    <Route
+                        exact path="/topic/update/:topic_id"
+                        component={CreateTopic}
                     />
                 </Router>
             </div>
