@@ -89,4 +89,13 @@ export class PostController {
         };
         this.postModel.saveToDraft(draftData);
     }
+
+    @Delete("/delete/topic/:topic_id")
+    public async deleteTopic(req: Request) {
+        const topic_id = parseInt(req.params.get("topic_id"));
+        //TODO: decide, where receive provided password
+        const providedPassword = "null";
+        const { id, password } = await this.authModel.verifySession(req.cookies.get("s_id"));
+        this.postModel.deleteTopic(topic_id, id, password, providedPassword);
+    }
 }

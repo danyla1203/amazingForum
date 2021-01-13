@@ -104,4 +104,12 @@ export class PostRepository extends Repository implements PostRepoI{
             throw new DatabaseError(e);
         }
     }
+    async deleteTopic(topic_id: number) {
+        try {
+            let sql = `delete from topics where topic_id = ${topic_id}`;
+            this.pg.query(sql);
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
 }

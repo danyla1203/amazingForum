@@ -1,5 +1,6 @@
 import {Comment, IncomingComment, IncomingTopic, Topic, UpdatedCommentData} from "./types";
 import {BadAuthor, BadCommentData, BadTopicData} from "./errors";
+import {BadPassword} from "../Authentication/errors";
 
 export interface PostModelI {
     getTopic(post_id: number): Promise<Topic>
@@ -10,6 +11,7 @@ export interface PostModelI {
     deleteComment(comment_id: number, user_id: number): void
     updateComment(comment_id: number, updater_id: number, newComment: UpdatedCommentData): Promise<void>
     saveToDraft(draft: IncomingTopic): void
+    deleteTopic(topic_id: number, user_id: number, password: string, providedPassword: string): void
 }
 
 export interface PostRepoI {
@@ -22,6 +24,7 @@ export interface PostRepoI {
     deleteComment(comment_id: number): void
     updateComment(comment_id: number, updates: UpdatedCommentData): void
     saveToDraft(draft: IncomingTopic): void
+    deleteTopic(topic_id: number): void
 }
 
 export class PostModel implements PostModelI {
@@ -145,6 +148,24 @@ export class PostModel implements PostModelI {
             this.repo.saveToDraft(draft);
         } else {
             throw new BadTopicData();
+        }
+    }
+    public async deleteTopic
+    (
+        topic_id: number,
+        user_id: number,
+        password: string,
+        providedPassword: string
+    ) {
+        const {author_id} = await this.repo.getTopicData(topic_id);
+        if (author_id == user_id) {
+            if (password == providedPassword) {
+                this.repo.deleteTopic(topic_id);
+            } else {
+                throw new BadPassword();
+            }
+        } else {
+            throw new BadAuthor();
         }
     }
 }
