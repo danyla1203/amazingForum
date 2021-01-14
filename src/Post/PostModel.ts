@@ -4,7 +4,7 @@ import {BadPassword} from "../Authentication/errors";
 
 export interface PostModelI {
     getTopic(post_id: number): Promise<Topic>
-    getComments(post_id: number): Promise<Comment[]>
+    getComments(post_id: number, sessionString: string): Promise<Comment[]>
     createComment(comment: IncomingComment): void
     createTopic(topic: IncomingTopic): Promise<Topic>
     updateTopic(topic_id: number, newTopicData: IncomingTopic): Promise<void>
@@ -25,6 +25,7 @@ export interface PostRepoI {
     updateComment(comment_id: number, updates: UpdatedCommentData): void
     saveToDraft(draft: IncomingTopic): void
     deleteTopic(topic_id: number): void
+    getUserId(user_session: string): Promise<undefined | number>
 }
 
 export class PostModel implements PostModelI {
@@ -87,8 +88,23 @@ export class PostModel implements PostModelI {
     public async getTopic(post_id: number): Promise<Topic> {
         return this.repo.getTopicData(post_id);
     }
-    public async getComments(post_id: number): Promise<Comment[]> {
-        return this.repo.getCommentsForTopic(post_id);
+
+    private extendsCommentsList(user_id: number, comments: Comment[]) {
+        for (let i = 0; i < comments.length; i++) {
+            if (user_id == comments[i].author_id) {
+                comments[i].isAuthor = true;
+            } else {
+                comments[i].isAuthor = false;
+            }
+        }
+    }
+    public async getComments(post_id: number, sessionString: string): Promise<Comment[]> {
+        let comments = await  this.repo.getCommentsForTopic(post_id);
+        const user_id = await this.repo.getUserId(sessionString);
+        if (user_id) {
+            this.extendsCommentsList(user_id, comments);
+        }
+        return comments;
     }
     public createComment(comment: IncomingComment): void {
         let isCommentValid = this.verifyIncomingCommentData(comment);

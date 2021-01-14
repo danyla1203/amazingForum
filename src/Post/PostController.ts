@@ -21,7 +21,8 @@ export class PostController {
     @get("/topic/:post_id/messages")
     public getMessages(req: Request) {
         let post_id = req.params.get("post_id");
-        return this.postModel.getComments(post_id);
+        let sessionId = req.cookies.get("s_id");
+        return this.postModel.getComments(post_id, sessionId);
     }
 
     @post("/topic/:post_id/add-comment")
@@ -35,7 +36,6 @@ export class PostController {
             topic_id: topic_id,
             text: text
         };
-        console.log(comment);
         this.postModel.createComment(comment);
     }
     @Delete("/delete/comment/:comment_id")

@@ -4,6 +4,7 @@ export type Comment = {
     topic_id: number
     text: string
     date: string
+    isAuthor?: boolean
 }
 export type IncomingComment = {
     [index:string]: any
