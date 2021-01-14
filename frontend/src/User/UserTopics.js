@@ -16,9 +16,8 @@ export default class UserTopics extends React.Component {
             let deleteLink = `/topic/delete/${topic.topic_id}`;
             let updateLink = `/topic/update/${topic.topic_id}`;
             return (
-               <div>
+               <div key={topic.topic_id}>
                    <ShortTopic
-                       key={topic.topic_id}
                        topic_id={topic.topic_id}
                        title={topic.title}
                    />

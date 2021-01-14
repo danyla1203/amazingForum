@@ -12,13 +12,14 @@ export default class UserComments extends React.Component {
     renderComments(comments) {
         return comments.map((comment) => {
             return (
-                <Comment
-                    key={comment.id}
-                    author_name={comment.author_name}
-                    avatar_url={comment.avatar_url}
-                    text={comment.text}
-                    date={comment.date}
-                />
+                <div key={comment.id}>
+                    <Comment
+                        author_name={comment.author_name}
+                        avatar_url={comment.avatar_url}
+                        text={comment.text}
+                        date={comment.date}
+                    />
+                </div>
             )
         })
     }
