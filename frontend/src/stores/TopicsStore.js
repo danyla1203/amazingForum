@@ -29,16 +29,4 @@ export class TopicsStore {
 
             })
     }
-    deleteTopic(topic_id, password) {
-        fetch(`${process.env.API_HOST}/delete/topic/${topic_id}/${password}`, {method: "DELETE"})
-            .then((response) => {
-                return response.json();
-            })
-            .then((result) => {
-                
-            })
-    }
-    updateTopic(topic_id, topic_data) {
-
-    }
 }
