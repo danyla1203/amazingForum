@@ -95,6 +95,6 @@ export class PostController {
         const topic_id = parseInt(req.params.get("topic_id"));
         const providedPassword = req.params.get("providedPassword");
         const { id, password } = await this.authModel.verifySession(req.cookies.get("s_id"));
-        this.postModel.deleteTopic(topic_id, id, password, providedPassword);
+        return this.postModel.deleteTopic(topic_id, id, password, providedPassword);
     }
 }
