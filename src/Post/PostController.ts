@@ -64,9 +64,9 @@ export class PostController {
             author_id: id,
             title: req.body.get("title"),
             text: req.body.get("text"),
-            thread_id: req.body.get("thread_id"),
+            thread_id: parseInt(req.body.get("thread_id")),
         };
-        this.postModel.updateTopic(topic_id, newTopic);
+        return this.postModel.updateTopic(topic_id, newTopic);
     }
     @put("/update/comment/:comment_id")
     public async updateComment(req: Request) {

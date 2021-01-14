@@ -115,8 +115,8 @@ export class PostModel implements PostModelI {
         let oldTopic = await this.repo.getTopicData(topic_id);
         if (oldTopic.author_id == newTopicData.author_id) {
             let isValid = this.verifyTopicData(newTopicData);
-            if(isValid) {
-                let updatedFields = this.findUpdates(oldTopic, newTopicData);
+            if (isValid) {
+                let updatedFields = this.findUpdates(newTopicData, oldTopic);
                 this.repo.updateTopic(oldTopic.topic_id, updatedFields);
             } else {
                 throw new BadTopicData();
