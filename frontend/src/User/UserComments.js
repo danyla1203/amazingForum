@@ -1,5 +1,6 @@
 import React from "react";
 import { observer, inject } from "mobx-react";
+import { Link } from "react-router-dom";
 import {Comment} from "../CurrentTopic/comment/Comment";
 
 @inject("userStore")
@@ -20,6 +21,7 @@ export default class UserComments extends React.Component {
                         text={comment.text}
                         date={comment.date}
                     />
+                    <Link to={"/topic/" + comment.topic_id}>Go to topic</Link>
                 </div>
             )
         })
