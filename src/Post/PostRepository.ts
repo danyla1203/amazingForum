@@ -7,7 +7,7 @@ export class PostRepository extends Repository implements PostRepoI{
     async getCommentsForTopic(post_id: number): Promise<Comment[]> {
         try {
             let sql =
-                `select comments.id, users.id as author_id comments.text, users.nickname as author_name, users.avatar_path as user_avatar, comments.date from comments
+                `select comments.id, users.id as author_id, comments.text, users.nickname as author_name, users.avatar_path as user_avatar, comments.date from comments
                  join topics
                  on comments.topic_id = topics.topic_id
                  join users

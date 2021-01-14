@@ -99,7 +99,7 @@ export class PostModel implements PostModelI {
         }
     }
     public async getComments(post_id: number, sessionString: string): Promise<Comment[]> {
-        let comments = await  this.repo.getCommentsForTopic(post_id);
+        let comments = await this.repo.getCommentsForTopic(post_id);
         const user_id = await this.repo.getUserId(sessionString);
         if (user_id) {
             this.extendsCommentsList(user_id, comments);
