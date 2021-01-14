@@ -3,7 +3,7 @@ import { inject, observer } from "mobx-react";
 import {CreateTopic} from "../TopicCreater/CreateTopic";
 import { Redirect } from "react-router-dom";
 
-@inject("topicStore", "currentTopicStore")
+@inject("userStore", "currentTopicStore")
 @observer
 export class UpdateTopic extends React.Component {
     constructor() {
@@ -23,7 +23,7 @@ export class UpdateTopic extends React.Component {
         let form = document.getElementById("createTopic_form");
         let formData = new FormData(form);
         const { topic_id } = this.props.match.params;
-        this.props.topicStore.updateTopic(topic_id, formData);
+        this.props.userStore.updateTopic(topic_id, formData);
 
         this.setState({ isUpdated: true });
     }
