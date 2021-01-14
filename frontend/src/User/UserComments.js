@@ -14,6 +14,7 @@ export default class UserComments extends React.Component {
             return (
                 <div key={comment.id}>
                     <Comment
+                        topic_id={comment.topic_id}
                         author_name={comment.author_name}
                         avatar_url={comment.avatar_url}
                         text={comment.text}
