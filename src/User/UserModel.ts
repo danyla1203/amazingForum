@@ -1,3 +1,5 @@
+import * as crypto from "crypto";
+
 import {IncorectCode, IncorrectPassword, IncorrectUserData} from "./errors";
 import {UpdatedUserData, UserData, UserIncomingData} from "./types";
 import {Comment} from "../Post/types";
@@ -53,8 +55,11 @@ export class UserModel implements UserModelI {
         }
         return true;
     }
-    private createVerificationCode(): string {
-        return "";
+    private createVerificationCode(user: UserIncomingData): string {
+        const hash = crypto.createHmac('md5', `${user.email}${user.nickname}`)
+            .update('I love cupcakes')
+            .digest('hex');
+        return hash;
     }
     private findUpdates
     (
@@ -76,7 +81,7 @@ export class UserModel implements UserModelI {
     public async saveUserWithUnverifiedEmail(user: UserIncomingData) {
         const isDataCorrect = this.verifyIncomingData(user);
         if (isDataCorrect) {
-            const verificationCode = this.createVerificationCode();
+            const verificationCode = this.createVerificationCode(user);
             this.userRepo.saveUserBeforeConfirmation(verificationCode, user);
             this.mailer.sendVerificationMail((user.email as string), verificationCode);
         } else {
