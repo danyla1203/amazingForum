@@ -18,6 +18,7 @@ import Logout from "./Logout/Logout";
 import {DeleteTopic} from "./Topics/DeleteTopic";
 import {NewTopic} from "./Topics/NewTopic";
 import {UpdateTopic} from "./Topics/UpdateTopic";
+import {Error404} from "./Error404";
 
 export class UserRouter extends React.Component {
     render() {
@@ -72,6 +73,10 @@ export class UserRouter extends React.Component {
                     <Route
                         exact path="/topic/update/:topic_id"
                         component={UpdateTopic}
+                    />
+                    <Route
+                        path="/"
+                        component={Error404}
                     />
                 </Router>
             </div>
