@@ -16,6 +16,7 @@ import {ThreadController} from "./Thread/ThreadController";
 import {PostRepository} from "./Post/PostRepository";
 import {PostModel} from "./Post/PostModel";
 import {PostController} from "./Post/PostController";
+import {MailService} from "./services/MailService";
 
 dotenv.config();
 
@@ -39,6 +40,9 @@ dbConnection.connect((err) => {
     }
 });
 
+//services
+const mailService = new MailService();
+
 //creating repositories
 const authRepo = new AuthenticationRepository(comfortRedis, dbConnection);
 const userRepo  = new UserRepository(comfortRedis, dbConnection);
@@ -47,7 +51,7 @@ const postRepo = new PostRepository(comfortRedis, dbConnection);
 
 //creating models
 const authModel = new AuthenticationModel(authRepo);
-const userModel = new UserModel(userRepo);
+const userModel = new UserModel(userRepo, mailService);
 const threadModel = new ThreadModel(threadRepo);
 const postModel = new PostModel(postRepo);
 

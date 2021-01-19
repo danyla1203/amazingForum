@@ -17,3 +17,11 @@ export class IncorrectPassword extends CustomError {
         })
     }
 }
+export class IncorectCode extends CustomError {
+    constructor() {
+        super({
+            statusCode: 400,
+            statusText: "Registration session is over"
+        })
+    }
+}

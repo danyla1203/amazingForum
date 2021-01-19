@@ -33,6 +33,22 @@ export class UserRepository extends Repository implements UserRepositoryI{
             throw new DatabaseError(e);
         }
     }
+
+    async saveUserBeforeConfirmation(code: string, user: UserIncomingData) {
+        try {
+            this.redisConn.hash.mset(`registration_user:${code}`, user);
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
+    async getSavedUser(code: string) {
+        try {
+            return this.redisConn.hash.getall(`registration_user:${code}`);
+        } catch (e) {
+            throw new DatabaseError(e);
+        }
+    }
+
     async updateUser(updates: UserIncomingData, user_id: number): Promise<void> {
         let setString = this.getSetPair(updates);
         try {

@@ -1,30 +1,39 @@
-import {IncorrectPassword, IncorrectUserData} from "./errors";
+import {IncorectCode, IncorrectPassword, IncorrectUserData} from "./errors";
 import {UpdatedUserData, UserData, UserIncomingData} from "./types";
 import {Comment} from "../Post/types";
 import {ShortTopic} from "../Thread/types";
-
-export interface UserModelI {
-    insertUser(user: UserIncomingData): Promise<UserData>
-    updateUserData(session_id: string, newUser: UpdatedUserData, prevUserData: UserData): Promise<UserData>
-    deleteUser(s_id: string, user_id: number): void
-    getCommentsForUser(user_id: number): Promise<Comment[]>
-    getTopicsForUser(user_id: number): Promise<ShortTopic[]>
-}
+import {CustomError} from "../lib/Error";
 
 export interface UserRepositoryI {
     deleteUserFromBd(user_id: number): void
     destroySession(session_id: string): void
     createUser(user: UserIncomingData): Promise<UserData>
+    saveUserBeforeConfirmation(code: string, user: UserIncomingData): void
+    getSavedUser(code: string): Promise<UserIncomingData | undefined>
     updateUser(updates: any, user_id: number): void
     updateSessionData(session_id: string, updates: any): Promise<UserData>
     getCommentsForUser(id: number): Promise<Comment[]>
     getTopicsForUser(id: number): Promise<ShortTopic[]>
 }
 
+export interface UserMailer {
+    sendVerificationMail(email: string, verificationCode: string): void;
+}
+
+export interface UserModelI {
+    insertUser(code: string): Promise<UserData>
+    saveUserWithUnverifiedEmail(user: UserIncomingData): void;
+    updateUserData(session_id: string, newUser: UpdatedUserData, prevUserData: UserData): Promise<UserData>
+    deleteUser(s_id: string, user_id: number): void
+    getCommentsForUser(user_id: number): Promise<Comment[]>
+    getTopicsForUser(user_id: number): Promise<ShortTopic[]>
+}
 export class UserModel implements UserModelI {
     userRepo: UserRepositoryI;
-    constructor(repo: UserRepositoryI) {
+    mailer: UserMailer;
+    constructor(repo: UserRepositoryI, mailer: UserMailer) {
         this.userRepo = repo;
+        this.mailer = mailer;
     }
 
     private verifyIncomingData(user: UserIncomingData): boolean {
@@ -42,7 +51,10 @@ export class UserModel implements UserModelI {
                 return false;
             }
         }
-        return true
+        return true;
+    }
+    private createVerificationCode(): string {
+        return "";
     }
     private findUpdates
     (
@@ -61,12 +73,23 @@ export class UserModel implements UserModelI {
         return updatedColumns;
     }
 
-    public async insertUser(user: UserIncomingData): Promise<UserData> {
-        let isDataCorrect = this.verifyIncomingData(user);
+    public async saveUserWithUnverifiedEmail(user: UserIncomingData) {
+        const isDataCorrect = this.verifyIncomingData(user);
         if (isDataCorrect) {
-            return this.userRepo.createUser(user);
+            const verificationCode = this.createVerificationCode();
+            this.userRepo.saveUserBeforeConfirmation(verificationCode, user);
+            this.mailer.sendVerificationMail((user.email as string), verificationCode);
         } else {
             throw new IncorrectUserData();
+        }
+    }
+
+    public async insertUser(code: string): Promise<UserData> {
+        const savedUser = await this.userRepo.getSavedUser(code);
+        if (savedUser) {
+            return this.userRepo.createUser(savedUser);
+        } else {
+            throw new IncorectCode();
         }
     }
 

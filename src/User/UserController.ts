@@ -15,7 +15,7 @@ export class UserController {
     }
 
     @post("/register")
-    async register(req: Request, res: Response): Promise<UserData> {
+    async register(req: Request, res: Response): Promise<{}> {
         let userData: UserIncomingData = {
             nickname: req.body.get("name"),
             password: req.body.get("password"),
@@ -23,11 +23,17 @@ export class UserController {
             country: req.body.get("country"),
             avatar_path: req.body.get("user_avatar").fileName
         };
-        let userWithId = await this.userModel.insertUser(userData);
-        let session_id = await this.authModel.createSession(userWithId);
+        this.userModel.saveUserWithUnverifiedEmail(userData);
+        return {};
+    }
+    @get("/verify-email/:code")
+    async verifyEmail(req: Request, res: Response) {
+        const code = req.params.get("code");
+        const user = await this.userModel.insertUser(code);
+        let session_id = await this.authModel.createSession(user);
 
         res.cookie("s_id", session_id);
-        return userWithId;
+        return user;
     }
 
     @get("/user")
