@@ -41,7 +41,10 @@ dbConnection.connect((err) => {
 });
 
 //services
-const mailService = new MailService();
+const mailUser = process.env.MAIL_LOGIN as string;
+const mailPass = process.env.MAIL_PASS as string;
+
+const mailService = new MailService(mailUser, mailPass);
 
 //creating repositories
 const authRepo = new AuthenticationRepository(comfortRedis, dbConnection);
@@ -64,4 +67,4 @@ const controllers = [
 ];
 const bootstrap = new Bootstrap(controllers);
 
-bootstrap.start(parseInt(process.env.PORT) || 3000);
+bootstrap.start(parseInt(process.env.PORT as string) || 3000);
