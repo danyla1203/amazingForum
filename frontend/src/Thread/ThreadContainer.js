@@ -13,6 +13,11 @@ export default class ThreadContainer extends React.Component {
     }
 
     renderThreads(threads) {
+        if (!threads) {
+            return (
+                <h3>Nothing to render</h3>
+            )
+        }
         return threads.map((thread) => {
             return (
                 <Thread
