@@ -2,6 +2,7 @@ import React from "react";
 import {
     BrowserRouter as Router,
     Route,
+    Switch,
 } from "react-router-dom";
 
 import Header from "./Header";
@@ -26,6 +27,7 @@ export class UserRouter extends React.Component {
             <div>
                 <Router>
                     <Header />
+                    <Switch>
                     <Route
                         exact path="/"
                         component={ThreadContainer}
@@ -75,9 +77,9 @@ export class UserRouter extends React.Component {
                         component={UpdateTopic}
                     />
                     <Route
-                        path="/"
                         component={Error404}
                     />
+                    </Switch>
                 </Router>
             </div>
         )
